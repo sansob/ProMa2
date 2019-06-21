@@ -15,11 +15,6 @@ namespace BusinessLogic.Service.Application
         {
             iRuleRepository = _iRuleRepository;
         }
-        public bool delete(int id)
-        {
-            return iRuleRepository.delete(id);
-        }
-
         public List<Rule> Get()
         {
             return iRuleRepository.Get();
@@ -35,7 +30,7 @@ namespace BusinessLogic.Service.Application
             return iRuleRepository.GetSearch(values);
         }
 
-        public bool insert(RuleVM ruleVM)
+        public bool Insert(RuleVM ruleVM)
         {
             if (string.IsNullOrWhiteSpace(ruleVM.Rule_Name))
             {
@@ -43,13 +38,30 @@ namespace BusinessLogic.Service.Application
             }
             else
             {
-                return iRuleRepository.insert(ruleVM);
+                return iRuleRepository.Insert(ruleVM);
             }
         }
 
-        public bool update(int id, RuleVM ruleVM)
+        public bool Update(int id, RuleVM ruleVM)
         {
-            return iRuleRepository.update(id, ruleVM);
+            if (string.IsNullOrWhiteSpace(ruleVM.Id.ToString()))
+            {
+                return status;
+            }
+            {
+                return iRuleRepository.Update(id, ruleVM);
+            }
+        }
+        public bool Delete(int id)
+        {
+            if (string.IsNullOrWhiteSpace(id.ToString()))
+            {
+                return status;
+            }
+            else
+            {
+                return iRuleRepository.Delete(id);
+            }
         }
     }
 }
