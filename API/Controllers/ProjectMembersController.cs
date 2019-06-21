@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using System.Web.Http.Description;
 using DataAccess.Context;
 using DataAccess.Models;
 using BusinessLogic.Service;
+using DataAccess.ViewModels;
+using System.Net.Http;
+using System.Net;
 
 namespace API.Controllers
 {
@@ -18,109 +13,66 @@ namespace API.Controllers
     {
         private ApplicationContext db = new ApplicationContext();
         public ProjectMembersController() { }
-        bool status = false;
         private readonly IProjectMemberService iProjectMemberService;
         public ProjectMembersController(IProjectMemberService _iProjectMemberService)
         {
             iProjectMemberService = _iProjectMemberService;
         }
         // GET: api/ProjectMembers
-        public List<ProjectMember> GetProjectMembers()
+        public HttpResponseMessage GetProjectMembers()
         {
-            return iProjectMemberService.Get();
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "NotFound");
+            var result = iProjectMemberService.Get();
+            if (result != null)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK);
+            }
+            return message;
         }
 
         // GET: api/ProjectMembers/5
-        [ResponseType(typeof(ProjectMember))]
-        public IHttpActionResult GetProjectMember(int id)
+        public HttpResponseMessage GetProjectMember(int id)
         {
-            ProjectMember projectMember = db.ProjectMembers.Find(id);
-            if (projectMember == null)
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "NotFound");
+            var result = iProjectMemberService.Get(id);
+            if (result!=null)
             {
-                return NotFound();
+                message = Request.CreateResponse(HttpStatusCode.OK);
             }
-
-            return Ok(projectMember);
+            return message;
         }
-
         // PUT: api/ProjectMembers/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutProjectMember(int id, ProjectMember projectMember)
+        public HttpResponseMessage PutProjectMember(int id, ProjectMemberVM projectMemberVM)
         {
-            if (!ModelState.IsValid)
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotModified, "Not Modified");
+            var result = iProjectMemberService.Update(id, projectMemberVM);
+            if (result)
             {
-                return BadRequest(ModelState);
+                message = Request.CreateResponse(HttpStatusCode.OK);
             }
-
-            if (id != projectMember.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(projectMember).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProjectMemberExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            return message;
         }
-
         // POST: api/ProjectMembers
-        [ResponseType(typeof(ProjectMember))]
-        public IHttpActionResult PostProjectMember(ProjectMember projectMember)
+        public HttpResponseMessage InsertProjectMember(ProjectMemberVM projectMemberVM)
         {
-            if (!ModelState.IsValid)
+            var message = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad Request");
+            var result = iProjectMemberService.Insert(projectMemberVM);
+            if (result)
             {
-                return BadRequest(ModelState);
+                message = Request.CreateResponse(HttpStatusCode.OK);
             }
-
-            db.ProjectMembers.Add(projectMember);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = projectMember.Id }, projectMember);
+            return message;
         }
-
         // DELETE: api/ProjectMembers/5
-        [ResponseType(typeof(ProjectMember))]
-        public IHttpActionResult DeleteProjectMember(int id)
+        public HttpResponseMessage DeleteProjectMember(int id)
         {
-            ProjectMember projectMember = db.ProjectMembers.Find(id);
-            if (projectMember == null)
+            var message = Request.CreateErrorResponse(HttpStatusCode.NoContent, "No Content");
+            var result = iProjectMemberService.Delete(id);
+            if (result)
             {
-                return NotFound();
+                message = Request.CreateResponse(HttpStatusCode.OK);
             }
-
-            db.ProjectMembers.Remove(projectMember);
-            db.SaveChanges();
-
-            return Ok(projectMember);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool ProjectMemberExists(int id)
-        {
-            return db.ProjectMembers.Count(e => e.Id == id) > 0;
+            return message;
         }
     }
 }

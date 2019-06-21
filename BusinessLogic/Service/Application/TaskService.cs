@@ -31,26 +31,41 @@ namespace BusinessLogic.Service.Application
             return iTaskRepository.Get(id);
         }
 
-        public bool insert(TaskVM taskVM)
+        public bool Insert(TaskVM taskVM)
         {
-            if (string.IsNullOrWhiteSpace(taskVM.Project_Id.ToString())&&string.IsNullOrWhiteSpace(taskVM.Status_Id.ToString())&&string.IsNullOrWhiteSpace(taskVM.Assigned_By_Member.ToString())&&string.IsNullOrWhiteSpace(taskVM.Assigned_To_Member.ToString()))
+            if (string.IsNullOrWhiteSpace(taskVM.Project_Id.ToString())&&
+                string.IsNullOrWhiteSpace(taskVM.Status_Id.ToString()))
             {
                 return status;
             }
             else
             {
-                return iTaskRepository.insert(taskVM);
+                return iTaskRepository.Insert(taskVM);
             }
         }
 
-        public bool update(int id, TaskVM taskVM)
+        public bool Update(int id, TaskVM taskVM)
         {
-            return iTaskRepository.update(id, taskVM);
+            if (string.IsNullOrWhiteSpace(taskVM.Id.ToString()))
+            {
+                return status = false;
+            }
+            else
+            {
+                return iTaskRepository.Update(id, taskVM);
+            }
         }
 
-        public bool delete(int id)
+        public bool Delete(int id)
         {
-            return iTaskRepository.delete(id);
+            if (string.IsNullOrWhiteSpace(id.ToString()))
+            {
+                return status = false;
+            }
+            else
+            {
+                return iTaskRepository.Delete(id);
+            }
         }
     }
 }

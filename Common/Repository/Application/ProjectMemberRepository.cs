@@ -14,7 +14,7 @@ namespace Common.Repository.Application
     {
         ApplicationContext applicationContext = new ApplicationContext();
         bool status = false;
-        public bool delete(int id)
+        public bool Delete(int id)
         {
             var get = Get(id);
             if (get != null)
@@ -32,23 +32,27 @@ namespace Common.Repository.Application
 
         public List<ProjectMember> Get()
         {
-            var get = applicationContext.ProjectMembers.Include("Project").Include("Rule").Where(x => x.IsDelete == false).ToList();
+            var get = applicationContext.ProjectMembers.Include("Project").Include("Project.Status").Include("Rule").Where(x => x.IsDelete == false).ToList();
             return get;
         }
 
         public ProjectMember Get(int id)
         {
-            var get = applicationContext.ProjectMembers.Find(id);
+            var get = applicationContext.ProjectMembers.Include("Project").Include("Project.Status").Include("Rule").SingleOrDefault(x => x.Id==id);
             return get;
         }
 
         public List<ProjectMember> GetSearch(string values)
         {
-            var get = applicationContext.ProjectMembers.Include("Project").Include("Rule").Where(x => (x.Project.Project_name.Contains(values) || x.Rule.Rule_Name.Contains(values) || x.Id.ToString().Contains(values)) && x.IsDelete == false).ToList();
+            var get = applicationContext.ProjectMembers.Include("Project").Include("Project.Status").Include("Rule").Where(x => (
+            x.Project.Project_name.Contains(values) ||
+            x.Project.Status.Status_name.Contains(values) ||
+            x.Rule.Rule_Name.Contains(values) ||
+            x.Id.ToString().Contains(values)) && x.IsDelete == false).ToList();
             return get;
         }
 
-        public bool insert(ProjectMemberVM projectMemberVM)
+        public bool Insert(ProjectMemberVM projectMemberVM)
         {
             var push = new ProjectMember(projectMemberVM);
             var getRule = applicationContext.Rules.Find(projectMemberVM.Rule_Id);
@@ -75,20 +79,21 @@ namespace Common.Repository.Application
             }
         }
 
-        public bool update(int id, ProjectMemberVM projectMemberVM)
+        public bool Update(int id, ProjectMemberVM projectMemberVM)
         {
-            var get = Get(id);
-            if(get != null)
+            var pull = Get(id);
+            pull.Update(projectMemberVM);
+            applicationContext.Entry(pull).State = EntityState.Modified;
+            var result = applicationContext.SaveChanges();
+            if (result > 0)
             {
-                get.Update(id, projectMemberVM);
-                applicationContext.Entry(get).State = EntityState.Modified;
-                applicationContext.SaveChanges();
-                return true;
+                status = true;
             }
             else
             {
-                return false;
+                return status;
             }
+            return status;
         }
     }
 }

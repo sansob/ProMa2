@@ -1,13 +1,11 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Net;
-using System.Web.Http;
-using System.Web.Http.Description;
+﻿using System.Web.Http;
 using DataAccess.Context;
 using System.Collections.Generic;
 using BusinessLogic.Service;
-
+using DataAccess.Models;
+using DataAccess.ViewModels;
+using System.Net.Http;
+using System.Net;
 
 namespace API.Controllers
 {
@@ -21,102 +19,60 @@ namespace API.Controllers
             iRuleService = _iRuleService;
         }
         // GET: api/Rules
-        public List<DataAccess.Models.Rule> GetRules()
+        public HttpResponseMessage GetRules()
         {
-            return iRuleService.Get();
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "Not Found");
+            var result = iRuleService.Get();
+            if (result != null)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK,result);
+            }
+            return message;
         }
 
         // GET: api/Rules/5
-        [ResponseType(typeof(DataAccess.Models.Rule))]
-        public IHttpActionResult GetRule(int id)
+        public HttpResponseMessage GetRule(int id)
         {
-            DataAccess.Models.Rule rule = db.Rules.Find(id);
-            if (rule == null)
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "Not Found");
+            var result = iRuleService.Get(id);
+            if (result!=null)
             {
-                return NotFound();
+                message = Request.CreateResponse(HttpStatusCode.OK,result);
             }
-
-            return Ok(rule);
+            return message;
         }
-
         // PUT: api/Rules/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutRule(int id, DataAccess.Models.Rule rule)
+        public HttpResponseMessage PutRule(int id, RuleVM ruleVM)
         {
-            if (!ModelState.IsValid)
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotModified, "Not Modified");
+            var result = iRuleService.Update(id, ruleVM);
+            if (result)
             {
-                return BadRequest(ModelState);
+                message = Request.CreateResponse(HttpStatusCode.OK,result, "Update successfully");
             }
-
-            if (id != rule.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(rule).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RuleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            return message;
         }
-
         // POST: api/Rules
-        [ResponseType(typeof(DataAccess.Models.Rule))]
-        public IHttpActionResult PostRule(DataAccess.Models.Rule rule)
+        public HttpResponseMessage InsertRule(RuleVM ruleVM)
         {
-            if (!ModelState.IsValid)
+            var message = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad Request");
+            var result = iRuleService.Insert(ruleVM);
+            if (result)
             {
-                return BadRequest(ModelState);
+                message = Request.CreateResponse(HttpStatusCode.OK, "Insert successfully");
             }
-
-            db.Rules.Add(rule);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = rule.Id }, rule);
+            return message;
         }
-
         // DELETE: api/Rules/5
-        [ResponseType(typeof(DataAccess.Models.Rule))]
-        public IHttpActionResult DeleteRule(int id)
+        public HttpResponseMessage DeleteRule(int id)
         {
-            DataAccess.Models.Rule rule = db.Rules.Find(id);
-            if (rule == null)
+            var message = Request.CreateErrorResponse(HttpStatusCode.NoContent, "No Content");
+            var result = iRuleService.Delete(id);
+            if (result)
             {
-                return NotFound();
+                message = Request.CreateResponse(HttpStatusCode.OK, "Delete successfully");
             }
-
-            db.Rules.Remove(rule);
-            db.SaveChanges();
-
-            return Ok(rule);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool RuleExists(int id)
-        {
-            return db.Rules.Count(e => e.Id == id) > 0;
+            return message;
         }
     }
 }
