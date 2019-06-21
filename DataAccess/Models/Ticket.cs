@@ -24,6 +24,7 @@ namespace DataAccess.Models
         public Status Status { get; set; }
         public ProjectMember ProjectMember { get; set; }
         public Project Project { get; set; }
+        public Ticket() { }
 
 
         public Ticket (TicketVM ticketVM)

@@ -23,7 +23,15 @@ namespace BusinessLogic.Service.Application
 
         public bool Delete(int id)
         {
-            return _iReplyRepository.Delete(id);
+            if (string.IsNullOrWhiteSpace(id.ToString()))
+            {
+                return status;
+            }
+            else
+            {
+                return _iReplyRepository.Delete(id); ;
+            }
+            
         }
 
         public List<Reply> Get()
@@ -36,10 +44,6 @@ namespace BusinessLogic.Service.Application
             return _iReplyRepository.Get(id);
         }
 
-        public List<Reply> GetSearch(string values)
-        {
-            return _iReplyRepository.GetSearch(values);
-        }
 
         public bool Insert(ReplyVM replyVM)
         {
@@ -55,7 +59,20 @@ namespace BusinessLogic.Service.Application
 
         public bool Update(int id, ReplyVM replyVM)
         {
-            return _iReplyRepository.Update(id, replyVM);
+            if (string.IsNullOrWhiteSpace(replyVM.Id.ToString()) && string.IsNullOrWhiteSpace(replyVM.Ticket_Id.ToString()))
+            {
+                return status;
+            }
+            else
+            {
+                return _iReplyRepository.Update(id, replyVM);
+            }
+                
+        }
+
+        public List<Reply> GetSearch(string values)
+        {
+            return _iReplyRepository.GetSearch(values);
         }
     }
 }
