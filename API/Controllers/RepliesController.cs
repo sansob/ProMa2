@@ -16,8 +16,7 @@ using DataAccess.ViewModels;
 namespace API.Controllers
 {
     public class RepliesController : ApiController
-    {
-        private ApplicationContext db = new ApplicationContext();
+    {        
         public RepliesController() { }
         private readonly IReplyService _iReplyService;
 
@@ -27,32 +26,67 @@ namespace API.Controllers
         }
 
         // GET: api/Replies
-        public List<Reply> GetReplies()
+        public HttpResponseMessage  GetReplies()
         {
-            return _iReplyService.Get();
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "Not Found");
+            var result = _iReplyService.Get();
+            if (result != null)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            return message;           
 
         }
 
         // GET: api/Replies/5
-
-        public Reply GetReply(int id)
+        
+        public HttpResponseMessage GetReply(int id)
         {
-            return _iReplyService.Get(id);
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "Not Found");
+            var result = _iReplyService.Get(id);
+            if (result != null)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            return message;
+            
         }
 
         // PUT: api/Replies/5
-
-
+        public HttpResponseMessage PutUpdateReplies(int id, ReplyVM replyVM)
+        {
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotModified, "Not Modified");
+            var result = _iReplyService.Update(id, replyVM);
+            if (result)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, replyVM);
+            }
+            return message;
+        }
         // POST: api/Replies
 
-        public void InsertReplies(ReplyVM replyVM)
+        public HttpResponseMessage InsertReplies(ReplyVM replyVM)
         {
-            _iReplyService.Insert(replyVM);
+            var message = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad Request");            
+            var result = _iReplyService.Insert(replyVM);
+            if (result)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, replyVM);
+            }
+            return message;
         }
 
-
-
-
         // DELETE: api/Replies/5
+
+        public HttpResponseMessage DeleteReplies(int id)
+        {
+            var message = Request.CreateErrorResponse(HttpStatusCode.NoContent, "No Content");
+            var result = _iReplyService.Delete(id);
+            if (result)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK);
+            }
+            return message;
+        }
     }
 }

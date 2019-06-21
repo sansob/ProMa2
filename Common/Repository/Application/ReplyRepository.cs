@@ -33,7 +33,7 @@ namespace Common.Repository.Application
 
         public List<Reply> Get()
         {
-            var get = applicationContext.Replies.Include("Ticket").Where(x => x.IsDelete == false).ToList();
+            var get = applicationContext.Replies.Where(x => x.IsDelete == false).ToList();
             return get;
         }
 
@@ -45,17 +45,17 @@ namespace Common.Repository.Application
 
         public List<Reply> GetSearch(string values)
         {
-            var get = applicationContext.Replies.Include("Ticket").Include("Ticket.Status").Where
-            (x => (x.Id.ToString().Contains(values) || x.Ticket.Status.Status_name.Contains(values)) &&
-                  x.IsDelete == false).ToList();
+            var get = applicationContext.Replies.Include("Ticket").Where
+                (x => (x.Id.ToString().Contains(values) || x.Ticket.Status.Status_name.Contains(values)) &&
+                x.IsDelete == false).ToList();
             return get;
         }
 
         public bool Insert(ReplyVM replyVM)
         {
             var push = new Reply(replyVM);
-            var getTicket = applicationContext.Tickets.Find(replyVM.Ticket_Id);
-            if (getTicket != null)
+            var getTicket = applicationContext.Tickets.Find(replyVM.Ticket_Id);            
+            if(getTicket != null)
             {
                 push.Ticket = getTicket;
                 applicationContext.Replies.Add(push);
@@ -74,22 +74,29 @@ namespace Common.Repository.Application
             {
                 return status;
             }
+           
+            
         }
 
         public bool Update(int id, ReplyVM replyVM)
         {
-            var get = Get(id);
-            if (get != null)
+            var pull = Get(id);
+            var getTicket = applicationContext.Tickets.Find(replyVM.Ticket_Id);
+            pull.Ticket = getTicket;
+            pull.Update(id, replyVM);
+            applicationContext.Entry(pull).State = EntityState.Modified;
+            var result = applicationContext.SaveChanges();
+            if (result > 0)
             {
-                get.Update(id, replyVM);
-                applicationContext.Entry(get).State = EntityState.Modified;
-                applicationContext.SaveChanges();
-                return true;
+                status = true;
+                return status;
             }
             else
             {
-                return false;
+                return status;
             }
         }
+    
+        
     }
 }

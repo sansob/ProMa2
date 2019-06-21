@@ -17,7 +17,7 @@ namespace API.Controllers
 {
     public class TicketsController : ApiController
     {
-        private ApplicationContext db = new ApplicationContext();
+        //private ApplicationContext db = new ApplicationContext();
         public TicketsController() { }
         private readonly ITicketService _iTicketService;
 
@@ -26,29 +26,67 @@ namespace API.Controllers
             _iTicketService = iTicketService;
         }
         // GET: api/Tickets
-        public List<Ticket> GetTickets()
+        public HttpResponseMessage GetTickets()
         {
-            return _iTicketService.Get();
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "Not Found");
+            var result = _iTicketService.Get();
+            if (result != null)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            return message; 
         }
 
         // GET: api/Tickets/5
-        public Ticket GetTicket(int id)
+        public HttpResponseMessage GetTicket(int id)
         {
-            return _iTicketService.Get(id);
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "Not Found");
+            var result = _iTicketService.Get(id);
+            if (result != null)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            return message;
         }
-
-        // POST: api/Tickets
-
 
         // PUT: api/Tickets/5
 
-        public void InsertTicket(TicketVM ticketVM)
+        public HttpResponseMessage PutUpdateTicket(int id, TicketVM ticketVM)
         {
-            _iTicketService.Insert(ticketVM);
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotModified, "Not Modified");
+            var result = _iTicketService.Update(id, ticketVM);
+            if (result)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, ticketVM);
+            }
+            return message;
+        }        
+
+        // POST: api/Tickets
+        public HttpResponseMessage InsertTicket(TicketVM ticketVM)
+        {
+            var message = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad Request");
+            var result = _iTicketService.Insert(ticketVM);
+            if (result)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, ticketVM);
+            }
+            return message;
         }
         
 
         // DELETE: api/Tickets/5
-        
+
+        public HttpResponseMessage DeleteTicket(int id)
+        {
+            var message = Request.CreateErrorResponse(HttpStatusCode.NoContent, "No Content");
+            var result = _iTicketService.Delete(id);
+            if (result)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK);
+            }
+            return message;
+        }
+
     }
 }
