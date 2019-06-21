@@ -2,6 +2,7 @@
 
 namespace DataAccess.ViewModels {
     public class ProjectVM {
+        public int Id { get; set; }
         public string Project_name { get; set; }
         public DateTimeOffset Project_Start { get; set; }
         public DateTimeOffset Project_Deadline { get; set; }
