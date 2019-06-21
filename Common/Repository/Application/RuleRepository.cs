@@ -14,7 +14,7 @@ namespace Common.Repository.Application
     {
         ApplicationContext applicationContext = new ApplicationContext();
         bool status = false;
-        public bool Delete(int id)
+        public bool delete(int id)
         {
             var get = Get(id);
             if (get != null)
@@ -48,7 +48,7 @@ namespace Common.Repository.Application
             return get;
         }
 
-        public bool Insert(RuleVM ruleVM)
+        public bool insert(RuleVM ruleVM)
         {
             var push = new Rule(ruleVM);
             applicationContext.Rules.Add(push);
@@ -64,21 +64,20 @@ namespace Common.Repository.Application
             }
         }
 
-        public bool Update(int id, RuleVM ruleVM)
+        public bool update(int id, RuleVM ruleVM)
         {
-            var pull = Get(id);
-            pull.Update(ruleVM);
-            applicationContext.Entry(pull).State = EntityState.Modified;
-            var result = applicationContext.SaveChanges();
-            if (result > 0)
+            var get = Get(id);
+            if (get != null)
             {
-                status = true;
+                get.Update(id, ruleVM);
+                applicationContext.Entry(get).State = EntityState.Modified;
+                applicationContext.SaveChanges();
+                return true;
             }
             else
             {
-                return status;
+                return false;
             }
-            return status;
         }
     }
 }

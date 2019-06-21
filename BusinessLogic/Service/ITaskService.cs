@@ -9,8 +9,8 @@ namespace BusinessLogic.Service
         List<Task> Get();
         List<Task> GetSearch(string values);
         Task Get(int id);
-        bool Insert(TaskVM taskVM);
-        bool Update(int id, TaskVM taskVM);
-        bool Delete(int id);
+        bool insert(TaskVM taskVM);
+        bool update(int id, TaskVM taskVM);
+        bool delete(int id);
     }
 }

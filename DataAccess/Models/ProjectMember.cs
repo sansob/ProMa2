@@ -26,9 +26,9 @@ namespace DataAccess.Models
         {
             this.CreateDate = DateTimeOffset.Now.ToLocalTime();
         }
-        public void Update(ProjectMemberVM projectMemberVM)
+        public void Update(int id, ProjectMemberVM projectMemberVM)
         {
-            this.Id = projectMemberVM.Id;
+            this.Id = id;
             this.UpdateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public void Delete()

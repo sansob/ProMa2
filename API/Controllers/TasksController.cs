@@ -1,11 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 using DataAccess.Context;
 using DataAccess.Models;
 using BusinessLogic.Service;
-using DataAccess.ViewModels;
-using System.Net.Http;
-using System.Net;
+
 
 namespace API.Controllers
 {
@@ -13,66 +19,109 @@ namespace API.Controllers
     {
         private ApplicationContext db = new ApplicationContext();
         public TasksController() { }
+        bool status = false;
         ITaskService iTaskService;
         public TasksController(ITaskService _iTaskService)
         {
             iTaskService = _iTaskService;
         }
         // GET: api/Tasks
-        public HttpResponseMessage GetTasks()
+        public List<Task> GetTasks()
         {
-            var message = Request.CreateErrorResponse(HttpStatusCode.NotModified, "Not Modified");
-            var result = iTaskService.Get();
-            if (result != null)
-            {
-                message = Request.CreateResponse(HttpStatusCode.OK);
-            }
-            return message;
+            return iTaskService.Get();
         }
 
         // GET: api/Tasks/5
-        public HttpResponseMessage GetTask(int id)
+        [ResponseType(typeof(Task))]
+        public IHttpActionResult GetTask(int id)
         {
-            var message = Request.CreateErrorResponse(HttpStatusCode.NotModified, "Not Modified");
-            var result = iTaskService.Get(id);
-            if (result!=null)
+            Task task = db.Tasks.Find(id);
+            if (task == null)
             {
-                message = Request.CreateResponse(HttpStatusCode.OK);
+                return NotFound();
             }
-            return message;
+
+            return Ok(task);
         }
+
         // PUT: api/Tasks/5
-        public HttpResponseMessage PutTasks(int id, TaskVM taskVM)
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutTask(int id, Task task)
         {
-            var message = Request.CreateErrorResponse(HttpStatusCode.NotModified, "Not Modified");
-            var result = iTaskService.Update(id, taskVM);
-            if (result)
+            if (!ModelState.IsValid)
             {
-                message = Request.CreateResponse(HttpStatusCode.OK);
+                return BadRequest(ModelState);
             }
-            return message;
+
+            if (id != task.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(task).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TaskExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
+
         // POST: api/Tasks
-        public HttpResponseMessage InsertTask(TaskVM taskVM)
+        [ResponseType(typeof(Task))]
+        public IHttpActionResult PostTask(Task task)
         {
-            var message = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad Request");
-            var result = iTaskService.Insert(taskVM);
-            if (result)
+            if (!ModelState.IsValid)
             {
-                message = Request.CreateResponse(HttpStatusCode.OK);
+                return BadRequest(ModelState);
             }
-            return message;
+
+            db.Tasks.Add(task);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = task.Id }, task);
         }
+
         // DELETE: api/Tasks/5
-        public HttpResponseMessage DeleteTask(int id)
+        [ResponseType(typeof(Task))]
+        public IHttpActionResult DeleteTask(int id)
         {
-            var message = Request.CreateErrorResponse(HttpStatusCode.NoContent, "No Content");
-            var result = iTaskService.Delete(id);
-            if (result)
+            Task task = db.Tasks.Find(id);
+            if (task == null)
             {
-                message = Request.CreateResponse(HttpStatusCode.OK);
+                return NotFound();
             }
-            return message;
+
+            db.Tasks.Remove(task);
+            db.SaveChanges();
+
+            return Ok(task);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private bool TaskExists(int id)
+        {
+            return db.Tasks.Count(e => e.Id == id) > 0;
         }
     }
 }
