@@ -23,7 +23,15 @@ namespace BusinessLogic.Service.Application
 
         public bool Delete(int id)
         {
-            return _iTicketRepository.Delete(id);
+            if (string.IsNullOrWhiteSpace(id.ToString()))
+            {
+                return status;
+            }
+            else
+            {
+                return _iTicketRepository.Delete(id);
+            }
+            
         }
 
         public List<Ticket> Get()
@@ -55,7 +63,15 @@ namespace BusinessLogic.Service.Application
 
         public bool Update(int id, TicketVM ticketVM)
         {
-            return _iTicketRepository.Update(id, ticketVM);
+            if (string.IsNullOrWhiteSpace(ticketVM.Id.ToString()) && string.IsNullOrWhiteSpace(ticketVM.Status_Id.ToString()))
+            {
+                return status;
+            }
+            else
+            {
+                return _iTicketRepository.Update(id, ticketVM);
+            }
+            
         }
     }
 }
