@@ -30,27 +30,40 @@ namespace BusinessLogic.Service.Application
         {
             return iProjectMemberRepository.Get(id);
         }
-
-        public bool insert(ProjectMemberVM projectMemberVM)
+        public bool Insert(ProjectMemberVM projectMemberVM)
         {
-            return iProjectMemberRepository.insert(projectMemberVM);
-        }
-
-        public bool update(int id, ProjectMemberVM projectMemberVM)
-        {
-            if (string.IsNullOrWhiteSpace(projectMemberVM.Project_Id.ToString()) && string.IsNullOrWhiteSpace(projectMemberVM.Rule_Id.ToString()) && string.IsNullOrWhiteSpace(projectMemberVM.User_Id.ToString()))
+            if(string.IsNullOrWhiteSpace(projectMemberVM.Project_Id.ToString())&&
+                string.IsNullOrWhiteSpace(projectMemberVM.Rule_Id.ToString())&&
+                string.IsNullOrWhiteSpace(projectMemberVM.User_Id.ToString()))
             {
                 return status;
             }
             else
             {
-                return iProjectMemberRepository.update(id, projectMemberVM);
+                return iProjectMemberRepository.Insert(projectMemberVM);
             }
         }
-
-        public bool delete(int id)
+        public bool Update(int id, ProjectMemberVM projectMemberVM)
         {
-            return iProjectMemberRepository.delete(id);
+            if (string.IsNullOrWhiteSpace(projectMemberVM.Project_Id.ToString()))
+            {
+                return status;
+            }
+            else
+            {
+                return iProjectMemberRepository.Update(id, projectMemberVM);
+            }
+        }
+        public bool Delete(int id)
+        {
+            if (string.IsNullOrWhiteSpace(id.ToString()))
+            {
+                return status;
+            }
+            else
+            {
+                return iProjectMemberRepository.Delete(id);
+            }
         }
     }
 }

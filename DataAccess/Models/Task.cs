@@ -17,16 +17,12 @@ namespace DataAccess.Models
         public string Description { get; set; }
         public DateTimeOffset Start_Date { get; set; }
         public DateTimeOffset Due_Date { get; set; }
-        [ForeignKey("AssignedByMember")]
         public int Assigned_By_Member { get; set; }
         public int Priority { get; set; }
         [ForeignKey("Status")]
         public int Status_Id { get; set; }
-        [ForeignKey("AssignedToMember")]
         public int Assigned_To_Member { get; set; }
         
-        public ProjectMember AssignedByMember { get; set; }
-        public ProjectMember AssignedToMember { get; set; }
         public Project Project { get; set; }
         public Status Status { get; set; }
 
@@ -39,9 +35,9 @@ namespace DataAccess.Models
             this.Priority = taskVM.Priority;
             this.CreateDate = DateTimeOffset.Now.ToLocalTime();
         }
-        public void Update(int id, TaskVM taskVM)
+        public void Update(TaskVM taskVM)
         {
-            this.Id = id;
+            this.Id = taskVM.Id;
             this.Description = taskVM.Description;
             this.Start_Date = taskVM.Start_Date;
             this.Due_Date = taskVM.Due_Date;

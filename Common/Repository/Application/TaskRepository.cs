@@ -13,7 +13,7 @@ namespace Common.Repository.Application
     {
         ApplicationContext applicationContext = new ApplicationContext();
         bool status = false;
-        public bool delete(int id)
+        public bool Delete(int id)
         {
             var get = Get(id);
             if (get != null)
@@ -34,17 +34,13 @@ namespace Common.Repository.Application
             var get = applicationContext.Tasks
                 .Include("Status")
                 .Include("Project")
-                .Include("AssignedByMember")
-                .Include("AssignedByMember.Rule")
-                .Include("AssignedToMember")
-                .Include("AssignedToMember.Rule")
                 .Where(x => x.IsDelete == false).ToList();
             return get;
         }
 
         public Task Get(int id)
         {
-            var get = applicationContext.Tasks.Find(id);
+            var get = applicationContext.Tasks.Include("Status").Include("Project").SingleOrDefault(x=>x.Id==id);
             return get;
         }
 
@@ -53,31 +49,21 @@ namespace Common.Repository.Application
             var get = applicationContext.Tasks
                 .Include("Status")
                 .Include("Project")
-                .Include("AssignedByMember")
-                .Include("AssignedByMember.Rule")
-                .Include("AssignedToMember")
-                .Include("AssignedToMember.Rule")
                 .Where(x => (
                     x.Priority.ToString().Contains(values)||
                     x.Status.Id.ToString().Contains(values)||
-                    x.Project.Project_name.Contains(values)||
-                    x.AssignedByMember.Rule.Rule_Name.Contains(values)||
-                    x.AssignedToMember.Rule.Rule_Name.Contains(values)
+                    x.Project.Project_name.Contains(values)
                     ) && x.IsDelete == false).ToList();
             return get;
         }
 
-        public bool insert(TaskVM taskVM)
+        public bool Insert(TaskVM taskVM)
         {
             var push = new Task(taskVM);
             var getStatus = applicationContext.Statuses.Find(taskVM.Status_Id);
             var getProject = applicationContext.Projects.Find(taskVM.Project_Id);
-            var getProjectByMember = applicationContext.ProjectMembers.Find(taskVM.Assigned_By_Member);
-            var getProjectToMember = applicationContext.ProjectMembers.Find(taskVM.Assigned_To_Member);
-            if (getProjectByMember != null && getProjectToMember != null&& getStatus != null && getProject != null)
+            if (getStatus != null && getProject != null)
             {
-                push.AssignedByMember = getProjectByMember;
-                push.AssignedToMember = getProjectToMember;
                 push.Status = getStatus;
                 push.Project = getProject;
                 applicationContext.Tasks.Add(push);
@@ -98,20 +84,21 @@ namespace Common.Repository.Application
             }
         }
 
-        public bool update(int id, TaskVM taskVM)
+        public bool Update(int id, TaskVM taskVM)
         {
-            var get = Get(id);
-            if (get != null)
+            var pull = Get(id);
+            pull.Update(taskVM);
+            applicationContext.Entry(pull).State = EntityState.Modified;
+            var result = applicationContext.SaveChanges();
+            if (result > 0)
             {
-                get.Update(id, taskVM);
-                applicationContext.Entry(get).State = EntityState.Modified;
-                applicationContext.SaveChanges();
-                return true;
+                status = true;
             }
             else
             {
-                return false;
+                return status;
             }
+            return status;            
         }
     }
 }
