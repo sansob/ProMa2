@@ -19,9 +19,9 @@ namespace DataAccess.Models
             this.CreateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public Rule() { }
-        public void Update(RuleVM ruleVM)
+        public void Update(int id, RuleVM ruleVM)
         {
-            this.Id = ruleVM.Id;
+            this.Id = id;
             this.UpdateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public void Delete()

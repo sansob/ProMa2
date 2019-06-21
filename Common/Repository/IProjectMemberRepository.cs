@@ -9,8 +9,8 @@ namespace Common.Repository
         List<ProjectMember> Get();
         List<ProjectMember> GetSearch(string values);
         ProjectMember Get(int id);
-        bool Insert(ProjectMemberVM projectMemberVM);
-        bool Update(int id, ProjectMemberVM projectMemberVM);
-        bool Delete(int id);
+        bool insert(ProjectMemberVM projectMemberVM);
+        bool update(int id, ProjectMemberVM projectMemberVM);
+        bool delete(int id);
     }
 }
