@@ -1,12 +1,11 @@
 ﻿using Core.Base;
-using DataAccess.ViewModels;
+using DataAccess.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Client.Controllers
@@ -23,7 +22,7 @@ namespace Client.Controllers
 
         public JsonResult LoadRule()
         {
-            IEnumerable<RuleVM> ruleVM = null;
+            IEnumerable<Rule> rule = null;
             var client = new HttpClient
             {
                 BaseAddress = new Uri(get.link)
@@ -33,41 +32,41 @@ namespace Client.Controllers
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
             {
-                var readTask = result.Content.ReadAsAsync<IList<RuleVM>>();
+                var readTask = result.Content.ReadAsAsync<IList<Rule>>();
                 readTask.Wait();
-                ruleVM = readTask.Result;
+                rule = readTask.Result;
             }
             else
             {
-                ruleVM = Enumerable.Empty<RuleVM>();
+                rule = Enumerable.Empty<Rule>();
                 ModelState.AddModelError(string.Empty, "Server error");
             }
-            return Json(ruleVM, JsonRequestBehavior.AllowGet);
+            return Json(rule, JsonRequestBehavior.AllowGet);
         }
 
-        public void InsertOrUpdate(RuleVM ruleVM)
+        public void InsertOrUpdate(Rule rule)
         {
             var client = new HttpClient
             {
                 BaseAddress = new Uri(get.link)
             };
-            var applicationContent = JsonConvert.SerializeObject(ruleVM);
+            var applicationContent = JsonConvert.SerializeObject(rule);
             var buffer = System.Text.Encoding.UTF8.GetBytes(applicationContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/Json");
-            if (ruleVM.Id.Equals(0))
+            if (rule.Id.Equals(0))
             {
                 var result = client.PostAsync("Rules", byteContent).Result;
             }
             else
             {
-                var result = client.PutAsync("Rules/" + ruleVM.Id, byteContent).Result;
+                var result = client.PutAsync("Rules/" + rule.Id, byteContent).Result;
             }
         }
 
         public JsonResult GetById(int id)
         {
-            RuleVM ruleVM = null;
+            Rule rule = null;
             var client = new HttpClient
             {
                 BaseAddress = new Uri(get.link)
@@ -77,17 +76,17 @@ namespace Client.Controllers
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
             {
-                var readTask = result.Content.ReadAsAsync<RuleVM>();
+                var readTask = result.Content.ReadAsAsync<Rule>();
                 readTask.Wait();
-                ruleVM = readTask.Result;
+                rule = readTask.Result;
             }
             else
             {
                 // try to find something
-                ruleVM = null;
+                rule = null;
                 ModelState.AddModelError(string.Empty, "Server error");
             }
-            return Json(ruleVM, JsonRequestBehavior.AllowGet);
+            return Json(rule, JsonRequestBehavior.AllowGet);
         }
 
         public void Delete(int id)

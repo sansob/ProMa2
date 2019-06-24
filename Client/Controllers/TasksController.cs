@@ -1,12 +1,11 @@
 ﻿using Core.Base;
-using DataAccess.ViewModels;
+using DataAccess.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Client.Controllers
@@ -23,7 +22,7 @@ namespace Client.Controllers
 
         public JsonResult LoadTask()
         {
-            IEnumerable<TaskVM> taskVM = null;
+            IEnumerable<Task> task = null;
             var client = new HttpClient
             {
                 BaseAddress = new Uri(get.link)
@@ -33,41 +32,41 @@ namespace Client.Controllers
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
             {
-                var readTask = result.Content.ReadAsAsync<IList<TaskVM>>();
+                var readTask = result.Content.ReadAsAsync<IList<Task>>();
                 readTask.Wait();
-                taskVM = readTask.Result;
+                task = readTask.Result;
             }
             else
             {
-                taskVM = Enumerable.Empty<TaskVM>();
+                task = Enumerable.Empty<Task>();
                 ModelState.AddModelError(string.Empty, "Server error");
             }
-            return Json(taskVM, JsonRequestBehavior.AllowGet);
+            return Json(task, JsonRequestBehavior.AllowGet);
         }
 
-        public void InsertOrUpdate(TaskVM taskVM)
+        public void InsertOrUpdate(Task task)
         {
             var client = new HttpClient
             {
                 BaseAddress = new Uri(get.link)
             };
-            var applicationContent = JsonConvert.SerializeObject(taskVM);
+            var applicationContent = JsonConvert.SerializeObject(task);
             var buffer = System.Text.Encoding.UTF8.GetBytes(applicationContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/Json");
-            if (taskVM.Id.Equals(0))
+            if (task.Id.Equals(0))
             {
                 var result = client.PostAsync("Tasks", byteContent).Result;
             }
             else
             {
-                var result = client.PutAsync("Tasks/" + taskVM.Id, byteContent).Result;
+                var result = client.PutAsync("Tasks/" + task.Id, byteContent).Result;
             }
         }
 
         public JsonResult GetById(int id)
         {
-            TaskVM taskVM = null;
+            Task task = null;
             var client = new HttpClient
             {
                 BaseAddress = new Uri(get.link)
@@ -77,17 +76,17 @@ namespace Client.Controllers
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
             {
-                var readTask = result.Content.ReadAsAsync<TaskVM>();
+                var readTask = result.Content.ReadAsAsync<Task>();
                 readTask.Wait();
-                taskVM = readTask.Result;
+                task = readTask.Result;
             }
             else
             {
                 // try to find something
-                taskVM = null;
+                task = null;
                 ModelState.AddModelError(string.Empty, "Server error");
             }
-            return Json(taskVM, JsonRequestBehavior.AllowGet);
+            return Json(task, JsonRequestBehavior.AllowGet);
         }
 
         public void Delete(int id)
