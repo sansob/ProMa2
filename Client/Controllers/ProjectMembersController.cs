@@ -11,83 +11,83 @@ using System.Web.Mvc;
 
 namespace Client.Controllers
 {
-    public class RulesController : Controller
+    public class ProjectMembersController : Controller
     {
         BaseLink get = new BaseLink();
 
-        // GET: Rules
+        // GET: ProjectMembers
         public ActionResult Index()
         {
-            return View(LoadRule());
+            return View(LoadProjectMember());
         }
 
-        public JsonResult LoadRule()
+        public JsonResult LoadProjectMember()
         {
-            IEnumerable<RuleVM> ruleVM = null;
+            IEnumerable<ProjectMemberVM> projectMemberVM = null;
             var client = new HttpClient
             {
                 BaseAddress = new Uri(get.link)
             };
-            var responseTask = client.GetAsync("Rules");
+            var responseTask = client.GetAsync("ProjectMembers");
             responseTask.Wait();
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
             {
-                var readTask = result.Content.ReadAsAsync<IList<RuleVM>>();
+                var readTask = result.Content.ReadAsAsync<IList<ProjectMemberVM>>();
                 readTask.Wait();
-                ruleVM = readTask.Result;
+                projectMemberVM = readTask.Result;
             }
             else
             {
-                ruleVM = Enumerable.Empty<RuleVM>();
+                projectMemberVM = Enumerable.Empty<ProjectMemberVM>();
                 ModelState.AddModelError(string.Empty, "Server error");
             }
-            return Json(ruleVM, JsonRequestBehavior.AllowGet);
+            return Json(projectMemberVM, JsonRequestBehavior.AllowGet);
         }
 
-        public void InsertOrUpdate(RuleVM ruleVM)
+        public void InsertOrUpdate(ProjectMemberVM projectMemberVM)
         {
             var client = new HttpClient
             {
                 BaseAddress = new Uri(get.link)
             };
-            var applicationContent = JsonConvert.SerializeObject(ruleVM);
+            var applicationContent = JsonConvert.SerializeObject(projectMemberVM);
             var buffer = System.Text.Encoding.UTF8.GetBytes(applicationContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/Json");
-            if (ruleVM.Id.Equals(0))
+            if (projectMemberVM.Id.Equals(0))
             {
-                var result = client.PostAsync("Rules", byteContent).Result;
+                var result = client.PostAsync("ProjectMembers", byteContent).Result;
             }
             else
             {
-                var result = client.PutAsync("Rules/" + ruleVM.Id, byteContent).Result;
+                var result = client.PutAsync("ProjectMembers/" + projectMemberVM.Id, byteContent).Result;
             }
         }
 
         public JsonResult GetById(int id)
         {
-            RuleVM ruleVM = null;
+            ProjectMemberVM projectMemberVM = null;
             var client = new HttpClient
             {
                 BaseAddress = new Uri(get.link)
             };
-            var responseTask = client.GetAsync("Rules/" + id);
+            var responseTask = client.GetAsync("ProjectMembers/" + id);
             responseTask.Wait();
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
             {
-                var readTask = result.Content.ReadAsAsync<RuleVM>();
+                var readTask = result.Content.ReadAsAsync<ProjectMemberVM>();
                 readTask.Wait();
-                ruleVM = readTask.Result;
+                projectMemberVM = readTask.Result;
             }
             else
             {
                 // try to find something
-                ruleVM = null;
+                projectMemberVM = null;
                 ModelState.AddModelError(string.Empty, "Server error");
             }
-            return Json(ruleVM, JsonRequestBehavior.AllowGet);
+            return Json(projectMemberVM, JsonRequestBehavior.AllowGet);
         }
 
         public void Delete(int id)
@@ -96,7 +96,7 @@ namespace Client.Controllers
             {
                 BaseAddress = new Uri(get.link)
             };
-            var result = client.DeleteAsync("Rules/" + id).Result;
+            var result = client.DeleteAsync("ProjectMembers/" + id).Result;
         }
     }
 }
