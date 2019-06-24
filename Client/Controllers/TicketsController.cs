@@ -1,9 +1,11 @@
 ﻿using Core.Base;
 using DataAccess.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 
@@ -43,5 +45,25 @@ namespace Client.Controllers
             return Json(ticketVM, JsonRequestBehavior.AllowGet);
 
         }
+
+        public void InsertOrUpdate(TicketVM ticketVM)
+        {
+            var client = new HttpClient();
+            client.BaseAddress = new Uri(get.link);
+            var myContent = JsonConvert.SerializeObject(ticketVM);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            if (ticketVM.Id.Equals(0))
+            {
+                var result = client.PostAsync("Tickets", byteContent).Result;
+            }
+            else
+            {
+                var result = client.PutAsync("Tickets/" + ticketVM.Id, byteContent).Result;
+            }
+        }
+
+
     }
 }
