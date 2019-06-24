@@ -1,34 +1,98 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Project List";
+    Layout = "~/Views/Shared/_SharedDashboardLayout.cshtml";
 }
 
-<head>
+<div class="row">
+    <div class="col-lg-10">
+        <h6 class="element-header">
+            Project List
+        </h6>
+        <div class="element-content">
+            <div class="row">
 
-</head>
-<body>
-    <div class="container-fluid">
-        <table class="table table-hover" id="tableProjects">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Project Name</th>
-                    <th>Project Start</th>
-                    <th>Project Deadline</th>
-                    <th>Action</th>
-                </tr>
+                <div class="element-box">
+                    <div class="container">
+                        
+                        <table style="width:100%" class="dataTables_wrapper container-fluid dt-bootstrap4" id="tableProjects">
+                            <thead >
+                            <tr>
+                                <th>No.</th>
+                                <th>Project Name</th>
+                                <th>Project Start</th>
+                                <th>Project Deadline</th>
+                                <th>Action</th>
+                            </tr>
+                        
+                            </thead>
+                            <tbody class="tbody"></tbody>
+                        </table>
+                        
+                    </div>
 
-            </thead>
-            <tbody class="tbody"></tbody>
-        </table>
+                </div>
+
+            </div>
+        </div>
     </div>
-</body>
 
+    <div class="col-lg-2">
+        <div class="element-wrapper">
+            <h6 class="element-header">
+                Quick Actions
+            </h6>
+            <div class="element-box">
+                <button class="btn btn-primary" data-target="#exampleModal1" data-toggle="modal" type="button">Add Project</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal1" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Add New Project
+                </h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true"> &times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for=""> Email address</label><input class="form-control" placeholder="Enter email" type="email">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for=""> Password</label><input class="form-control" placeholder="Password" type="password">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="">Confirm Password</label><input class="form-control" placeholder="Password" type="password">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button><button class="btn btn-primary" type="button"> Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/><br/><br/><br/><br/><br/><br/>
 @section Scripts {
     <script src="~/Content/jquery/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="~/Content/sweetalert/sweetalert.min.js"></script>
-    <link href="~/Content/sweetalert/sweetalert.css" rel="stylesheet" />
-    <script src="~/Content/datatables/jquery.dataTables.min.js"></script>
-    <link href="~/Content/datatables/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="~/Content/sweetalert/sweetalert.css" rel="stylesheet"/>
     <script src="~/Scripts/Admin/ProjectScript.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
 }

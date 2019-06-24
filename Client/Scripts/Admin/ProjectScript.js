@@ -1,7 +1,9 @@
 ﻿$(document).ready(function() {
     LoadIndexRule();
-    $('#table').DataTable({
-        "ajax": LoadIndexRule()
+    $('#tableProjects').DataTable({
+        "ajax": LoadIndexRule(),
+        "paging": true,
+        "filter": true
     })
 })
 
@@ -26,6 +28,7 @@ function LoadIndexRule() {
                         val.Id +
                         ')">Edit</a>';
                     html += ' | <a href="#" class="fa fa-trash" onclick=return Delete(' + val.Id + ')">Delete</a></td>';
+                    
                     html += '</tr>';
                     i++;
                 });
