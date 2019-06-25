@@ -14,7 +14,7 @@ namespace Common.Repository.Application
 
         public List<Status> Get()
         {
-            return _applicationContext.Statuses.Where(X => X.IsDelete == false).ToList();
+            return _applicationContext.Statuses.Where(X => X.IsDelete == false).OrderByDescending(c => c.Id).ToList();
         }
 
         public List<Status> GetStatusByModule(string modulQuery)
