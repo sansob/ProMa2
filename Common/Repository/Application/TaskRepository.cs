@@ -53,16 +53,10 @@ namespace Common.Repository.Application
             var get = applicationContext.Tasks
                 .Include("Status")
                 .Include("Project")
-                .Include("AssignedByMember")
-                .Include("AssignedByMember.Rule")
-                .Include("AssignedToMember")
-                .Include("AssignedToMember.Rule")
                 .Where(x => (
                     x.Priority.ToString().Contains(values)||
                     x.Status.Id.ToString().Contains(values)||
-                    x.Project.Project_name.Contains(values)||
-                    x.AssignedByMember.Rule.Rule_Name.Contains(values)||
-                    x.AssignedToMember.Rule.Rule_Name.Contains(values)
+                    x.Project.Project_name.Contains(values)
                     ) && x.IsDelete == false).ToList();
             return get;
         }
@@ -76,8 +70,6 @@ namespace Common.Repository.Application
             var getProjectToMember = applicationContext.ProjectMembers.Find(taskVM.Assigned_To_Member);
             if (getProjectByMember != null && getProjectToMember != null&& getStatus != null && getProject != null)
             {
-                push.AssignedByMember = getProjectByMember;
-                push.AssignedToMember = getProjectToMember;
                 push.Status = getStatus;
                 push.Project = getProject;
                 applicationContext.Tasks.Add(push);
