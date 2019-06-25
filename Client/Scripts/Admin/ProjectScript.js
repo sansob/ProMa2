@@ -167,6 +167,7 @@ function ClearScreen() {
     $('#project_Name').val('');
     $('#project_start').val('');
     $('#project_end').val('');
+    $('#project_status').val('');
     $('#project_description').val('');
     $('#Update').hide();
 }
@@ -182,7 +183,7 @@ function Validate() {
         swal("Oops", "Start date is lower then today, today is "+moment().format("MM/DD/YYYY"), "error")
     }
     else if ($('#project_end').val() <= moment().format("MM/DD/YYYY") ) {
-        swal("Oops", "Minimum project duration is one day. ", "error")
+        swal("Oops", "Minimum project duration is one day. ", "error" )
     }
     
     else if ($('#project_description').val() == "" || $('#project_description').val() == " ") {
