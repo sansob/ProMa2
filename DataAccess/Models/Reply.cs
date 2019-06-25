@@ -1,11 +1,7 @@
-﻿using Core.Base;
-using DataAccess.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Core.Base;
+using DataAccess.ViewModels;
 
 namespace DataAccess.Models
 {
@@ -24,24 +20,24 @@ namespace DataAccess.Models
 
         public Reply(ReplyVM replyVM)
         {
-            this.ReplyFrom = replyVM.ReplyFrom;
-            this.Message = replyVM.Message;
-            this.Date = replyVM.Date;
-            this.CreateDate = DateTimeOffset.Now.ToLocalTime();
+            ReplyFrom = replyVM.ReplyFrom;
+            Message = replyVM.Message;
+            Date = replyVM.Date;
+            CreateDate = DateTimeOffset.Now.ToLocalTime();
         }
 
         public void Update(int id, ReplyVM replyVM)
         {
-            this.ReplyFrom = replyVM.ReplyFrom;
-            this.Message = replyVM.Message;
-            this.Date = replyVM.Date;
-            this.UpdateDate = DateTimeOffset.Now.ToLocalTime();
+            ReplyFrom = replyVM.ReplyFrom;
+            Message = replyVM.Message;
+            Date = replyVM.Date;
+            UpdateDate = DateTimeOffset.Now.ToLocalTime();
         }
 
         public void Delete()
         {
-            this.IsDelete = true;
-            this.DeleteDate = DateTimeOffset.Now.ToLocalTime();
+            IsDelete = true;
+            DeleteDate = DateTimeOffset.Now.ToLocalTime();
         }
 
     }

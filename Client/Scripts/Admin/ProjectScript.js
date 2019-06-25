@@ -25,11 +25,11 @@ function LoadIndexProject() {
                     html += '<td>' + val.Project_name + '</td>';
                     html += '<td>' + moment(val.Project_Start).format("MM/DD/YYYY") + '</td>';
                     html += '<td>' + moment(val.Project_Deadline).format("MM/DD/YYYY") + '</td>';
-                    html += '<td>' + moment().startOf(val.Project_Deadline).from(val.Project_start) + '</td>';
+                    html += '<td>' + moment(val.Project_Deadline, "YYYYMMDD").fromNow();
                     html += '<td>' + val.Status.Status_name + '</td>';
                     html += '<td>' +
-                        '<a class="btn btn-outline-dark btn-sm" onclick="return GetById(' + val.Id + ')" ><i class="os-icon os-icon-edit-1"></i><span>Edit</span></a>';
-                    html += '  <a class="btn btn-danger btn-sm" onclick="return Delete(' + val.Id + ')" ><i class="os-icon os-icon-cancel-square"></i><span>Delete</span></a>';
+                        '<a class="btn btn-outline-info btn-sm" onclick="return GetById(' + val.Id + ')" ><i class="os-icon os-icon-edit-1"></i><span>Edit</span></a>';
+                    html += '  <a class="btn btn-outline-danger btn-sm" onclick="return Delete(' + val.Id + ')" ><i class="os-icon os-icon-cancel-square"></i><span>Delete</span></a>';
 
                     html += '</tr>';
                     i++;
@@ -57,10 +57,7 @@ function Edit() {
                     text: "That data has been save!",
                     type: "success"
                 },
-                function () {
-                    window.location.href = '/Projects/Index/';
-                });
-            LoadIndexProject();
+            LoadIndexProject());
             $('#modelAddNew').modal('hide');
            
         }
@@ -85,10 +82,10 @@ function Save() {
                         type: "success"
                     },
                     function () {
-                        window.location.href = '/Projects/';
+                        window.location.href = '/Projects/Index/';
                     });
-                LoadIndexProject();
                 $('#modelAddNew').modal('hide');
+                LoadIndexProject();
             }
         });
     ClearScreen();
@@ -132,10 +129,8 @@ function Delete(Id) {
                         title: "Deleted!",
                         text: "That data has been soft delete!",
                         type: "success"
-                    },
-                    function () {
-                        window.location.href = '/Projects/Index/';
-                    });
+                    }, 
+                    LoadIndexProject());
                 ClearScreen();
             },
             error: function (response) {
@@ -153,4 +148,24 @@ function ClearScreen() {
     $('#project_end').val('');
     $('#project_description').val('');
     $('#Update').hide();
+}
+
+function Validate() {
+    if ($('#project_Name').val() == "" || $('#project_Name').val() == " ") {
+        swal("Oops", "Please Insert Project Name", "error")
+    } 
+    else if ($('#project_start').val() == "" || $('#project_start').val() == " ") {
+        swal("Oops", "Please add project start", "error")
+    }
+    else if ($('#project_end').val() == "" || $('#project_end').val() == " ") {
+        swal("Oops", "Please add project end", "error")
+    }
+    else if ($('#project_description').val() == "" || $('#project_description').val() == " ") {
+        swal("Oops", "Please add project description", "error")
+    }
+    else if ($('#Id').val() == "") {
+        Save();
+    } else {
+        Edit();
+    }
 }

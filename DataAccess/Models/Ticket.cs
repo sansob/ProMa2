@@ -1,11 +1,7 @@
-﻿using Core.Base;
-using DataAccess.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Core.Base;
+using DataAccess.ViewModels;
 
 namespace DataAccess.Models
 {
@@ -29,22 +25,22 @@ namespace DataAccess.Models
 
         public Ticket (TicketVM ticketVM)
         {            
-            this.Message = ticketVM.Message;
-            this.Date = ticketVM.Date;
-            this.CreateDate = DateTimeOffset.Now.ToLocalTime();
+            Message = ticketVM.Message;
+            Date = ticketVM.Date;
+            CreateDate = DateTimeOffset.Now.ToLocalTime();
         }
 
         public void Update(int id, TicketVM ticketVM)
         {
-            this.Message = ticketVM.Message;
-            this.Date = ticketVM.Date;
-            this.UpdateDate = DateTimeOffset.Now.ToLocalTime();
+            Message = ticketVM.Message;
+            Date = ticketVM.Date;
+            UpdateDate = DateTimeOffset.Now.ToLocalTime();
         }
 
         public void Delete()
         {
-            this.IsDelete = true;
-            this.DeleteDate = DateTimeOffset.Now.ToLocalTime();
+            IsDelete = true;
+            DeleteDate = DateTimeOffset.Now.ToLocalTime();
         }
     }
 }
