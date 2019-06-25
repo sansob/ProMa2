@@ -25,7 +25,7 @@ namespace API.Controllers
             var result = iProjectMemberService.Get();
             if (result != null)
             {
-                message = Request.CreateResponse(HttpStatusCode.OK);
+                message = Request.CreateResponse(HttpStatusCode.OK, result);
             }
             return message;
         }
@@ -37,7 +37,7 @@ namespace API.Controllers
             var result = iProjectMemberService.Get(id);
             if (result!=null)
             {
-                message = Request.CreateResponse(HttpStatusCode.OK);
+                message = Request.CreateResponse(HttpStatusCode.OK, result);
             }
             return message;
         }
