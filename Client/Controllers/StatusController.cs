@@ -44,6 +44,33 @@ namespace Client.Controllers
             return Json(statuses, JsonRequestBehavior.AllowGet);
         }
         
+        public JsonResult GetStatusProject()
+        {
+            IEnumerable<Status> statuses = null;
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri(get.link)
+            };
+            var responseTask = client.GetAsync("Status?modulQuery=project");
+            responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<IList<Status>>();
+                readTask.Wait();
+                statuses = readTask.Result;
+            }
+            else
+            {
+                statuses = Enumerable.Empty<Status>();
+                ModelState.AddModelError(string.Empty, "Server error");
+            }
+
+            return Json(statuses, JsonRequestBehavior.AllowGet);
+        }
+
+        
+        
         public void InsertOrUpdate(Status status)
         {
             var client = new HttpClient
