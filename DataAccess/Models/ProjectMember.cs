@@ -1,11 +1,7 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Core.Base;
 using DataAccess.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Models
 {
@@ -24,17 +20,17 @@ namespace DataAccess.Models
         public ProjectMember() { }
         public ProjectMember(ProjectMemberVM projectMemberVM)
         {
-            this.CreateDate = DateTimeOffset.Now.ToLocalTime();
+            CreateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public void Update(ProjectMemberVM projectMemberVM)
         {
-            this.Id = projectMemberVM.Id;
-            this.UpdateDate = DateTimeOffset.Now.ToLocalTime();
+            Id = projectMemberVM.Id;
+            UpdateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public void Delete()
         {
-            this.IsDelete = true;
-            this.DeleteDate = DateTimeOffset.Now.ToLocalTime();
+            IsDelete = true;
+            DeleteDate = DateTimeOffset.Now.ToLocalTime();
         }
     }
 }

@@ -13,9 +13,20 @@ namespace DataAccess.Models {
         }
 
         public Status(StatusVM statusVm) {
-            this.Status_name = statusVm.Status_name;
-            this.Status_module = statusVm.Status_module;
-            this.CreateDate = DateTimeOffset.Now.LocalDateTime;
+            Status_name = statusVm.Status_name;
+            Status_module = statusVm.Status_module;
+            CreateDate = DateTimeOffset.Now.LocalDateTime;
+        }
+
+        public void Update(StatusVM statusVm)
+        {
+            Status_name = statusVm.Status_name;
+            Status_module = statusVm.Status_module;
+            UpdateDate = DateTimeOffset.Now.LocalDateTime;
+        }
+        public void Delete() {
+            IsDelete = true;
+            DeleteDate = DateTimeOffset.Now.LocalDateTime;
         }
     }
 }

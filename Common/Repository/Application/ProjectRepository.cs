@@ -11,7 +11,7 @@ namespace Common.Repository.Application {
         private bool _status = false;
 
         public List<Project> Get() {
-            return _applicationContext.Projects.Include("Status").Where(X => X.IsDelete == false).ToList();
+            return _applicationContext.Projects.Include("Status").Where(X => X.IsDelete == false).OrderByDescending(c => c.Id).ToList();
         }
 
         public List<Project> GetSearch(string searchQuery) {

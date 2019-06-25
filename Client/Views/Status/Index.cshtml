@@ -1,12 +1,12 @@
-﻿@{
-    ViewBag.Title = "Project List";
+@{
+    ViewBag.Title = "Status List";
     Layout = "~/Views/Shared/_SharedDashboardLayout.cshtml";
 }
 
 <div class="row">
     <div class="col-lg-10">
         <h6 class="element-header">
-            <h3>Project List</h3>
+            <h3>Status List</h3>
         </h6>
         <div class="element-content">
             <div class="row">
@@ -14,14 +14,12 @@
                 <div class="element-box" style="width:100%">
                     <div class="container-fluid">
                         <div class="table-responsive">
-                            <table width="100%" class="table table-padded table-lightfont" id="tableProjects">
+                            <table width="100%" class="table  table-lightfont" id="tableProjects">
                                 <thead >
                                 <tr>
                                     <th>No.</th>
-                                    <th>Project Name</th>
-                                    <th>Project Start</th>
-                                    <th>Project Deadline</th>
-                                    <th>Status</th>
+                                    <th>Status Name</th>
+                                    <th>Status Module</th>
                                     <th>Action</th>
                                 </tr>
 
@@ -45,7 +43,7 @@
             </h6>
             <div class="element-box-tp">
                 <div class="el-buttons-list full-width">
-                    <button class="btn btn-white btn-sm" data-target="#modelAddNew" data-toggle="modal" onclick="ClearScreen()" type="button"><i class="os-icon os-icon-delivery-box-2"></i> Add Project</button>
+                    <button class="btn btn-white btn-sm" data-target="#modelAddNew" data-toggle="modal" onclick="ClearScreen()" type="button"><i class="os-icon os-icon-delivery-box-2"></i> Add Status</button>
                     <button class="btn btn-white btn-sm" onclick="LoadIndexProject()" type="button"><i class="os-icon os-icon-grid-18"></i> Refresh</button>
                 </div>
             </div>
@@ -62,36 +60,18 @@
                     Projects
                 </h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"> &times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="form-group">
                         <input hidden="hidden" id="id" class="form-control" type="text">
-                        <label for="">Project Name</label><input id="project_Name" class="form-control" placeholder="Project Name" type="text">
+                        <label for="">Status Name</label><input id="status_name" class="form-control" placeholder="Status Name" type="text">
                     </div>
                     <div class="form-group">
-                        <label for="">Start Date</label>
-                        <div class="date-input">
-                            <input id="project_start" class="single-daterange  form-control" placeholder="Insert start date" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="">End Date</label>
-                        <div class="date-input">
-                            <input id="project_end" class="single-daterange  form-control" placeholder="Insert end date" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Project Description</label>
-                        <textarea id="project_description" placeholder="Insert project description" class="form-control" rows="3"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for=""> Status</label>
-                        <select id="project_status" class="form-control">
-                            
-                        </select>
+                        <input hidden="hidden" id="id" class="form-control" type="text">
+                        <label for="">Status Mdule</label><input id="status_module" class="form-control" placeholder="Status Module" type="text">
                     </div>
                 </form>
             </div>
@@ -115,7 +95,7 @@
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet">
     <link href="~/Content/sweetalert/sweetalert.css" rel="stylesheet"/>
-    <script src="~/Scripts/Admin/ProjectScript.js"></script>
+    <script src="~/Scripts/Admin/StatusScript.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
 }
 
