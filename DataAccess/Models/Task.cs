@@ -1,11 +1,7 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Core.Base;
 using DataAccess.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Models
 {
@@ -29,25 +25,25 @@ namespace DataAccess.Models
         public Task() { }
         public Task(TaskVM taskVM)
         {
-            this.Description = taskVM.Description;
-            this.Start_Date = taskVM.Start_Date;
-            this.Due_Date = taskVM.Due_Date;
-            this.Priority = taskVM.Priority;
-            this.CreateDate = DateTimeOffset.Now.ToLocalTime();
+            Description = taskVM.Description;
+            Start_Date = taskVM.Start_Date;
+            Due_Date = taskVM.Due_Date;
+            Priority = taskVM.Priority;
+            CreateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public void Update(TaskVM taskVM)
         {
-            this.Id = taskVM.Id;
-            this.Description = taskVM.Description;
-            this.Start_Date = taskVM.Start_Date;
-            this.Due_Date = taskVM.Due_Date;
-            this.Priority = taskVM.Priority;
-            this.UpdateDate = DateTimeOffset.Now.ToLocalTime();
+            Id = taskVM.Id;
+            Description = taskVM.Description;
+            Start_Date = taskVM.Start_Date;
+            Due_Date = taskVM.Due_Date;
+            Priority = taskVM.Priority;
+            UpdateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public void Delete()
         {
-            this.IsDelete = true;
-            this.DeleteDate = DateTimeOffset.Now.ToLocalTime();
+            IsDelete = true;
+            DeleteDate = DateTimeOffset.Now.ToLocalTime();
         }
     }
 }

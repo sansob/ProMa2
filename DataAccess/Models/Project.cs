@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.Migrations.Model;
 using Core.Base;
 using DataAccess.ViewModels;
 
@@ -19,24 +17,24 @@ namespace DataAccess.Models {
         }
 
         public Project(ProjectVM projectVm) {
-            this.Project_name = projectVm.Project_name;
-            this.Project_Deadline = projectVm.Project_Deadline;
-            this.Project_Start = projectVm.Project_Start;
-            this.Project_Detail = projectVm.Project_Detail;
-            this.CreateDate = DateTimeOffset.Now.LocalDateTime;
+            Project_name = projectVm.Project_name;
+            Project_Deadline = projectVm.Project_Deadline;
+            Project_Start = projectVm.Project_Start;
+            Project_Detail = projectVm.Project_Detail;
+            CreateDate = DateTimeOffset.Now.LocalDateTime;
         }
 
         public void Update(ProjectVM projectVm) {
-            this.Project_name = projectVm.Project_name;
-            this.Project_Deadline = projectVm.Project_Deadline;
-            this.Project_Start = projectVm.Project_Start;
-            this.Project_Detail = projectVm.Project_Detail;
-            this.UpdateDate = DateTimeOffset.Now.LocalDateTime;
+            Project_name = projectVm.Project_name;
+            Project_Deadline = projectVm.Project_Deadline;
+            Project_Start = projectVm.Project_Start;
+            Project_Detail = projectVm.Project_Detail;
+            UpdateDate = DateTimeOffset.Now.LocalDateTime;
         }
 
         public void Delete() {
-            this.IsDelete = true;
-            this.DeleteDate = DateTimeOffset.Now.LocalDateTime;
+            IsDelete = true;
+            DeleteDate = DateTimeOffset.Now.LocalDateTime;
         }
     }
 }

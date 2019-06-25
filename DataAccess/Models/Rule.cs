@@ -1,11 +1,7 @@
-﻿using Core.Base;
-using DataAccess.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Core.Base;
+using DataAccess.ViewModels;
 
 namespace DataAccess.Models
 {
@@ -15,19 +11,19 @@ namespace DataAccess.Models
         public string Rule_Name { get; set; }
         public Rule(RuleVM ruleVM)
         {
-            this.Rule_Name = ruleVM.Rule_Name;
-            this.CreateDate = DateTimeOffset.Now.ToLocalTime();
+            Rule_Name = ruleVM.Rule_Name;
+            CreateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public Rule() { }
         public void Update(RuleVM ruleVM)
         {
-            this.Id = ruleVM.Id;
-            this.UpdateDate = DateTimeOffset.Now.ToLocalTime();
+            Id = ruleVM.Id;
+            UpdateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public void Delete()
         {
-            this.IsDelete = true;
-            this.DeleteDate = DateTimeOffset.Now.ToLocalTime();
+            IsDelete = true;
+            DeleteDate = DateTimeOffset.Now.ToLocalTime();
         }
     }
 }
