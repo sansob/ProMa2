@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Description;
 using BusinessLogic.Service;
 using DataAccess.Context;
-using DataAccess.Models;
+using DataAccess.ViewModels;
 
 namespace API.Controllers
 {
     public class StatusController : ApiController
     {
+        private ApplicationContext db = new ApplicationContext();
 
         public StatusController()
         {
@@ -28,96 +23,98 @@ namespace API.Controllers
             _iStatusService = iStatusService;
         }
 
-        private ApplicationContext db = new ApplicationContext();
-
-        // GET: api/Status
-        public List<Status> GetStatuses()
+        // GET: api/Projects
+        public HttpResponseMessage GetStatus()
         {
-            return _iStatusService.Get();
-        }
-
-        // GET: api/Status/5
-
-
-
-        // PUT: api/Status/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutStatus(int id, Status status)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != status.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(status).State = EntityState.Modified;
-
             try
             {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StatusExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "404 : Data Not Found");
+                var result = _iStatusService.Get();
+                if (result != null) message = Request.CreateResponse(HttpStatusCode.OK, result);
 
-            return StatusCode(HttpStatusCode.NoContent);
+                return message;
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "500 : Internal Server Error");
+            }
         }
 
-        // POST: api/Status
-        [ResponseType(typeof(Status))]
-        public IHttpActionResult PostStatus(Status status)
+        public HttpResponseMessage GetStatusByModule(string modulQuery)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "404 : Data Not Found");
+                var result = _iStatusService.GetStatusByModule(modulQuery);
+                if (result != null) message = Request.CreateResponse(HttpStatusCode.OK, result);
+
+                return message;
             }
-
-            db.Statuses.Add(status);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = status.Id }, status);
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "500 : Internal Server Error");
+            }
         }
 
-        // DELETE: api/Status/5
-        [ResponseType(typeof(Status))]
-        public IHttpActionResult DeleteStatus(int id)
+        // GET: api/Projects/5
+        public HttpResponseMessage GetStatus(int id)
         {
-            Status status = db.Statuses.Find(id);
-            if (status == null)
+            try
             {
-                return NotFound();
+                var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "404 : Data Not Found");
+                var result = _iStatusService.Get(id);
+                if (result != null) message = Request.CreateResponse(HttpStatusCode.OK, result);
+
+                return message;
             }
-
-            db.Statuses.Remove(status);
-            db.SaveChanges();
-
-            return Ok(status);
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "500 : Internal Server Error");
+            }
         }
 
-        protected override void Dispose(bool disposing)
+        // PUT: api/Projects/5
+        public HttpResponseMessage PutStatus(int id, StatusVM statusVm)
         {
-            if (disposing)
+            try
             {
-                db.Dispose();
+                var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "404 : Data Not Found");
+                var result = _iStatusService.Update(id, statusVm);
+                if (result) message = Request.CreateResponse(HttpStatusCode.OK, statusVm);
+
+                return message;
             }
-            base.Dispose(disposing);
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "500 : Internal Server Error");
+            }
         }
 
-        private bool StatusExists(int id)
+        // POST: api/Projects
+        public HttpResponseMessage InsertStatus(StatusVM statusVm)
         {
-            return db.Statuses.Count(e => e.Id == id) > 0;
+            var message = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad Request");
+            var result = _iStatusService.Insert(statusVm);
+            if (result) message = Request.CreateResponse(HttpStatusCode.OK, statusVm);
+
+            return message;
+        }
+
+        // DELETE: api/Projects/5
+        public HttpResponseMessage DeleteStatus(int id)
+        {
+            try
+            {
+                var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "404 : Data Not Found");
+                var result = _iStatusService.Delete(id);
+                if (result) message = Request.CreateResponse(HttpStatusCode.OK, "200 : OK (Data Deleted)");
+
+                return message;
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "500 : Internal Server Error");
+            }
         }
     }
 }
