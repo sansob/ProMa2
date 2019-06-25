@@ -25,7 +25,6 @@ function LoadIndexProject() {
                     html += '<td>' + val.Project_name + '</td>';
                     html += '<td>' + moment(val.Project_Start).format("MM/DD/YYYY") + '</td>';
                     html += '<td>' + moment(val.Project_Deadline).format("MM/DD/YYYY") + '</td>';
-                    html += '<td>' + moment(val.Project_Deadline, "YYYYMMDD").fromNow();
                     html += '<td>' + val.Status.Status_name + '</td>';
                     html += '<td>' +
                         '<a class="btn btn-outline-info btn-sm" onclick="return GetById(' + val.Id + ')" ><i class="os-icon os-icon-edit-1"></i><span>Edit</span></a>';
@@ -82,9 +81,9 @@ function Save() {
                         type: "success"
                     },
                     function () {
-                        window.location.href = '/Projects/Index/';
+                        location.reload();
                     });
-                $('#modelAddNew').modal('hide');
+
                 LoadIndexProject();
             }
         });
@@ -157,9 +156,13 @@ function Validate() {
     else if ($('#project_start').val() == "" || $('#project_start').val() == " ") {
         swal("Oops", "Please add project start", "error")
     }
-    else if ($('#project_end').val() == "" || $('#project_end').val() == " ") {
-        swal("Oops", "Please add project end", "error")
+    else if ($('#project_start').val() < moment().format("MM/DD/YYYY") ) {
+        swal("Oops", "Start date is lower then today, today is "+moment().format("MM/DD/YYYY"), "error")
     }
+    else if ($('#project_end').val() <= moment().format("MM/DD/YYYY") ) {
+        swal("Oops", "Minimum project duration is one day. ", "error")
+    }
+    
     else if ($('#project_description').val() == "" || $('#project_description').val() == " ") {
         swal("Oops", "Please add project description", "error")
     }
