@@ -1,13 +1,15 @@
-﻿@{
-    ViewBag.Title = "Project List";
+@{
+    ViewBag.Title = "Project Dashboard";
     Layout = "~/Views/Shared/_SharedDashboardLayout.cshtml";
 }
 
 <div class="row">
-    <div class="col-lg-10">
-        <h6 class="element-header">
-            <h3>Project List</h3>
-        </h6>
+
+    <h2 class="element-header">
+        Project Management
+    </h2>
+
+    <div class="col-lg-12">
         <div class="element-content">
             <div class="row">
 
@@ -38,19 +40,6 @@
         </div>
     </div>
 
-    <div class="col-lg-2">
-        <div class="element-wrapper">
-            <h6 class="element-header">
-                Quick Actions
-            </h6>
-            <div class="element-box-tp">
-                <div class="el-buttons-list full-width">
-                    <button class="btn btn-white btn-sm" data-target="#modelAddNew" data-toggle="modal" onclick="ClearScreen()" type="button"><i class="os-icon os-icon-delivery-box-2"></i> Add Project</button>
-                    <button class="btn btn-white btn-sm" onclick="LoadIndexProject()" type="button"><i class="os-icon os-icon-grid-18"></i> Refresh</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 
@@ -90,7 +79,7 @@
                     <div class="form-group">
                         <label for=""> Status</label>
                         <select id="project_status" class="form-control">
-                            
+
                         </select>
                     </div>
                 </form>
@@ -120,7 +109,7 @@
 }
 
 <style>
-    html body.menu-position-side.menu-side-left.full-screen.with-content-panel div.all-wrapper.with-side-panel.solid-bg-all div.layout-w div.content-w div.content-i div.content-box div.row div.col-lg-10 div.element-content div.row div.element-box div.container-fluid div.table-responsive div#tableProjects_wrapper.dataTables_wrapper.form-inline.dt-bootstrap.no-footer div.row{
+    html body.menu-position-side.menu-side-left.full-screen.with-content-panel div.all-wrapper.with-side-panel.solid-bg-all div.layout-w div.content-w div.content-i div.content-box div.row div.col-lg-12 div.element-content div.row div.element-box div.container-fluid div.table-responsive div#tableProjects_wrapper.dataTables_wrapper.form-inline.dt-bootstrap.no-footer div.row{
     width: 100%;
     }
    </style>
