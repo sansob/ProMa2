@@ -83,7 +83,6 @@ function Save() {
                     function () {
                         location.reload();
                     });
-
                 LoadIndexProject();
             }
         });
@@ -166,7 +165,7 @@ function Validate() {
     else if ($('#project_description').val() == "" || $('#project_description').val() == " ") {
         swal("Oops", "Please add project description", "error")
     }
-    else if ($('#Id').val() == "") {
+    else if ($('#id').val() == "" || $('#id').val() == " ") {
         Save();
     } else {
         Edit();
