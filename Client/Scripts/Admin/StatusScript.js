@@ -143,9 +143,9 @@ function Validate() {
     else if ($('#status_module').val() == "" || $('#status_module').val() == " ") {
         swal("Oops", "Please add project start", "error")
     }
-    else if ($('#Id').val() == "") {
+    else if ($('#id').val() == "" || $('#id').val() == " ") {
         Save();
-    } else {
+    }  else {
         Edit();
     }
 }
