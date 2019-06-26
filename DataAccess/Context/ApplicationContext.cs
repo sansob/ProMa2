@@ -13,5 +13,6 @@ namespace DataAccess.Context {
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<File> Files { get; set; }
     }
 }
