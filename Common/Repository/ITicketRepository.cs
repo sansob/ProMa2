@@ -10,6 +10,7 @@ namespace Common.Repository
 {
     public interface ITicketRepository
     {
+        List<Ticket> GetStatusByProjectId(int project_id);
         List<Ticket> Get();
         List<Ticket> GetSearch(string values);
         Ticket Get(int id);

@@ -13,8 +13,6 @@ namespace Client.Controllers
     public class ProjectMembersController : Controller
     {
         BaseLink get = new BaseLink();
-
-        // GET: ProjectMembers
         public ActionResult Index()
         {
             return View(LoadProjectMember());

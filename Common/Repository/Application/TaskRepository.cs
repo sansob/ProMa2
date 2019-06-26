@@ -32,7 +32,6 @@ namespace Common.Repository.Application
         public List<Task> Get()
         {
             var get = applicationContext.Tasks
-                .Include("Status")
                 .Include("Project")
                 .Where(x => x.IsDelete == false).ToList();
             return get;
@@ -40,20 +39,28 @@ namespace Common.Repository.Application
 
         public Task Get(int id)
         {
-            var get = applicationContext.Tasks.Include("Status").Include("Project").SingleOrDefault(x=>x.Id==id);
+            var get = applicationContext.Tasks.Include("Project").SingleOrDefault(x=>x.Id==id);
             return get;
         }
 
         public List<Task> GetSearch(string values)
         {
             var get = applicationContext.Tasks
-                .Include("Status")
                 .Include("Project")
                 .Where(x => (
                     x.Priority.ToString().Contains(values)||
-                    x.Status.Id.ToString().Contains(values)||
+                    x.Status_Id.ToString().Contains(values)||
                     x.Project.Project_name.Contains(values)
                     ) && x.IsDelete == false).ToList();
+            return get;
+        }
+
+        public List<Task> GetTaskByProjectId(int project_id)
+        {
+            var get = applicationContext.Tasks
+                .Include("Status")
+                .Include("Project")
+                .Where(x => x.Project_Id.Equals(project_id) && x.IsDelete == false).ToList();
             return get;
         }
 

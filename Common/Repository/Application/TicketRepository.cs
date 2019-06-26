@@ -52,6 +52,14 @@ namespace Common.Repository.Application
             return get;
         }
 
+        public List<Ticket> GetStatusByProjectId(int project_id)
+        {
+            var get = applicationContext.Tickets.Include("Status").Include("ProjectMember.Rule").Include("Project").Where
+                (x => x.Project_Id.Equals(project_id) &&
+                x.IsDelete == false).ToList();
+            return get;
+        }
+
         public bool Insert(TicketVM ticketVM)
         {
             var push = new Ticket(ticketVM);

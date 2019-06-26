@@ -5,6 +5,7 @@ namespace DataAccess.ViewModels {
         public int Project_OwnerId;
         public int Id { get; set; }
         public string Project_name { get; set; }
+        public string Project_module { get; set; }
         public DateTimeOffset Project_Start { get; set; }
         public DateTimeOffset Project_Deadline { get; set; }
         public string Project_Detail { get; set; }
@@ -12,8 +13,9 @@ namespace DataAccess.ViewModels {
 
         public ProjectVM() {}
 
-        public ProjectVM(string projectName, DateTimeOffset projectStart, DateTimeOffset projectDeadline, string projectDetail, int statusId, int projectOwnerId) {
+        public ProjectVM(string projectName, string projectModule, DateTimeOffset projectStart, DateTimeOffset projectDeadline, string projectDetail, int statusId, int projectOwnerId) {
             this.Project_name = projectName;
+            this.Project_module = projectModule;
             this.Project_Start = projectStart;
             this.Project_Deadline = projectDeadline;
             this.Project_Detail = projectDetail;
@@ -21,8 +23,9 @@ namespace DataAccess.ViewModels {
             this.Project_OwnerId = projectOwnerId;
         }
 
-        public void Update(string projectName, DateTimeOffset projectStart, DateTimeOffset projectDeadline, string projectDetail, int statusId, int projectOwnerId) {
+        public void Update(string projectName, string projectModule, DateTimeOffset projectStart, DateTimeOffset projectDeadline, string projectDetail, int statusId, int projectOwnerId) {
             this.Project_name = projectName;
+            this.Project_module = projectModule;
             this.Project_Start = projectStart;
             this.Project_Deadline = projectDeadline;
             this.Project_Detail = projectDetail;

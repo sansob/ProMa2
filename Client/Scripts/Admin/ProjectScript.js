@@ -55,7 +55,6 @@ function LoadStatusProject() {
         success: function (data) {
             console.log(data);
             var html = '';
-            
             html += '<option value="" selected disabled hidden>Choose here</option>';
             
             $.each(data,
