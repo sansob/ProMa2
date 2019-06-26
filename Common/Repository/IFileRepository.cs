@@ -8,6 +8,7 @@ namespace Common.Repository
     {
         List<File> Get();
         List<File> GetSearch(string searchQuery);
+        List<File> GetFileByProject(int id);
         File Get(int id);
         bool Insert(FileVM fileVM);
         bool Update(int id, FileVM fileVm);

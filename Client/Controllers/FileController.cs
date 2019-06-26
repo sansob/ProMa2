@@ -44,6 +44,30 @@ namespace Client.Controllers
             }
 
             return Json(files, JsonRequestBehavior.AllowGet);
+        }        
+        public JsonResult LoadFilesFromProject(int id)
+        {
+            IEnumerable<File> files = null;
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri(get.link)
+            };
+            var responseTask = client.GetAsync("GetterFile/"+ id);
+            responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<IList<File>>();
+                readTask.Wait();
+                files = readTask.Result;
+            }
+            else
+            {
+                files = Enumerable.Empty<File>();
+                ModelState.AddModelError(string.Empty, "Server error");
+            }
+
+            return Json(files, JsonRequestBehavior.AllowGet);
         }
 
         public void InsertOrUpdate(File file)
