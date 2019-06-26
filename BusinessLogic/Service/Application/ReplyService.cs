@@ -74,5 +74,10 @@ namespace BusinessLogic.Service.Application
         {
             return _iReplyRepository.GetSearch(values);
         }
+
+        public List<Reply> GetStatusByTicketId(int ticket_id)
+        {
+            return _iReplyRepository.GetStatusByTicketId(ticket_id);
+        }
     }
 }

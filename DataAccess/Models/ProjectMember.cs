@@ -11,6 +11,7 @@ namespace DataAccess.Models
         [ForeignKey("Project")]
         public int Project_Id { get; set; }
         public int User_Id { get; set; }
+        public string User_Name { get; set; }
         [ForeignKey("Rule")]
         public int Rule_Id { get; set; }
 
@@ -20,11 +21,12 @@ namespace DataAccess.Models
         public ProjectMember() { }
         public ProjectMember(ProjectMemberVM projectMemberVM)
         {
+            User_Name = projectMemberVM.User_Name;
             CreateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public void Update(ProjectMemberVM projectMemberVM)
         {
-            Id = projectMemberVM.Id;
+            User_Name = projectMemberVM.User_Name;
             UpdateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public void Delete()

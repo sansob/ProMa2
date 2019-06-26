@@ -73,5 +73,10 @@ namespace BusinessLogic.Service.Application
             }
             
         }
+
+        public List<Ticket> GetStatusByProjectId(int project_id)
+        {
+            return _iTicketRepository.GetStatusByProjectId(project_id);
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace BusinessLogic.Service
 {
     public interface ITicketService
     {
+        List<Ticket> GetStatusByProjectId(int project_id);
         List<Ticket> Get();
         List<Ticket> GetSearch(string values);
         Ticket Get(int id);
