@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
+using DataAccess.Models;
 
 namespace Client.Controllers
 {
@@ -44,6 +45,31 @@ namespace Client.Controllers
             }
             return Json(ticketVM, JsonRequestBehavior.AllowGet);
 
+        }
+        
+        public JsonResult LoadTicketFromProject(int id)
+        {
+            IEnumerable<Ticket> files = null;
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri(get.link)
+            };
+            var responseTask = client.GetAsync("GetterTicket/"+ id);
+            responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<IList<Ticket>>();
+                readTask.Wait();
+                files = readTask.Result;
+            }
+            else
+            {
+                files = Enumerable.Empty<Ticket>();
+                ModelState.AddModelError(string.Empty, "Server error");
+            }
+
+            return Json(files, JsonRequestBehavior.AllowGet);
         }
 
         public void InsertOrUpdate(TicketVM ticketVM)

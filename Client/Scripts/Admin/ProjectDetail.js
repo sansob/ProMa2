@@ -3,6 +3,7 @@ $(document).ready(function () {
     var id = url.substring(url.lastIndexOf('/') + 1);
     GetById(id);
     LoadIndexFileByProject(id);
+    LoadIndexTicketByProject(id);
 });
 
 function OpenUploader(){
@@ -94,3 +95,33 @@ function LoadIndexFileByProject(id) {
         }
     });
 }
+
+function LoadIndexTicketByProject(id) {
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: "/Tickets/LoadTicketFromProject/"+id,
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            var html = '';
+            var i = 1;
+            $.each(data,
+                function (index, val) {
+                    html += '<tr>';
+                    html += '<td>' + i + '</td>';
+                    html += '<td>' + val.Project.Project_name + '</td>';
+                    html += '<td>' + val.Status.Status_name + '</td>';
+                    html += '<td>' + moment(val.Date).format("MMM Do YY") + '</td>';
+                    html += '<td>' + val.Message + '</td>';
+                    html += '<td>  <a class="btn btn-outline-success btn-sm" href="'+val.File_url+'" target="_blank" ><i class="os-icon os-icon-ui-51"></i><span>Download</span></a>';
+
+                    html += '</tr>';
+                    i++;
+                });
+
+            $('#ttickets').html(html);
+        }
+    });
+}
+

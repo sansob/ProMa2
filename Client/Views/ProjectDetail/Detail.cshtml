@@ -4,187 +4,208 @@
 }
 
 <div class="row">
-    <div class="col-lg-12">
-        <div class="row">
-            <div class="col-sm-10">
-                <h6 class="element-header">
-                    <h3 id="project_Title">Project List</h3>
-                </h6>
-            </div>
-            <div class="col-sm-2">
-                <button id="project_status" type="button" class="btn btn-outline-primary btn-lg">Primary</button>
-            </div>
-        </div>
+<div class="col-lg-12">
+<div class="row">
+    <div class="col-sm-10">
+        <h6 class="element-header">
+            <h3 id="project_Title">Project List</h3>
+        </h6>
+    </div>
+    <div class="col-sm-2">
+        <button id="project_status" type="button" class="btn btn-outline-primary btn-lg">Primary</button>
+    </div>
+</div>
 
-        <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Project Detail</a>
-                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Task</a>
-                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Project Member</a>
-                <a class="nav-item nav-link" id="nav-file-tab" data-toggle="tab" href="#nav-file" role="tab" aria-controls="nav-file" aria-selected="false">File</a>
-                <a class="nav-item nav-link" id="nav-tickets-tab" data-toggle="tab" href="#nav-tickets" role="tab" aria-controls="nav-tickets" aria-selected="false">Tickets</a>
-            </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" onclick="return GetById();" aria-labelledby="nav-home-tab">
-                <div class="element-content">
-                    <div class="row">
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Project Detail</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Task</a>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Project Member</a>
+        <a class="nav-item nav-link" id="nav-file-tab" data-toggle="tab" href="#nav-file" role="tab" aria-controls="nav-file" aria-selected="false">File</a>
+        <a class="nav-item nav-link" id="nav-tickets-tab" data-toggle="tab" href="#nav-tickets" role="tab" aria-controls="nav-tickets" aria-selected="false">Tickets</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" onclick="return GetById();" aria-labelledby="nav-home-tab">
+        <div class="element-content">
+            <div class="row">
 
-                        <div class="element-box" style="width:100%">
-                            <div class="container-fluid">
+                <div class="element-box" style="width:100%">
+                    <div class="container-fluid">
 
-                                <div class="element-box-tp">
-                                    <div class="row">
-                                        <div class="col-lg-7 col-xxl-6">
-                                            <!--START - BALANCES-->
-                                            <div class="element-balances">
-                                                <div class="balance hidden-mobile">
-                                                    <div class="balance-title">
-                                                        Start date
-                                                    </div>
-                                                    <div class="balance-value">
-                                                        <span id="project_start">xxx</span>
-                                                    </div>
-                                                </div>
-                                                <div class="balance">
-                                                    <div class="balance-title">
-                                                        Due Date
-                                                    </div>
-                                                    <div class="balance-value">
-                                                        <span id="project_end">xxx</span>
-                                                    </div>
-                                                    <div class="balance-link">
-                                                    </div>
-                                                </div>
-                                                <div class="balance">
-                                                    <div class="balance-title">
-                                                        Estimate project deadline
-                                                    </div>
-                                                    <div class="balance-value danger">
-                                                        <span id="project_running">xxx</span>
-                                                    </div>
-                                                    <div class="balance-link">
-                                                    </div>
-                                                </div>
+                        <div class="element-box-tp">
+                            <div class="row">
+                                <div class="col-lg-7 col-xxl-6">
+                                    <!--START - BALANCES-->
+                                    <div class="element-balances">
+                                        <div class="balance hidden-mobile">
+                                            <div class="balance-title">
+                                                Start date
                                             </div>
-                                            <!--END - BALANCES-->
+                                            <div class="balance-value">
+                                                <span id="project_start">xxx</span>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-5 col-xxl-6">
-                                            <!--START - MESSAGE ALERT-->
-                                            <div class="alert alert-info borderless">
-                                                <h5 class="alert-heading">
-                                                    Projet Description
-                                                </h5>
-                                                <p id="project_description">
-                                                    {{project_desc}}
-                                                </p>
-                                                <div class="alert-btn">
-                                                    <a class="btn btn-white-gold" href="#">
-                                                        <i class="os-icon os-icon-ui-92"></i><span>Send Referral</span>
-                                                    </a>
-                                                </div>
+                                        <div class="balance">
+                                            <div class="balance-title">
+                                                Due Date
                                             </div>
-                                            <!--END - MESSAGE ALERT-->
+                                            <div class="balance-value">
+                                                <span id="project_end">xxx</span>
+                                            </div>
+                                            <div class="balance-link">
+                                            </div>
+                                        </div>
+                                        <div class="balance">
+                                            <div class="balance-title">
+                                                Estimate project deadline
+                                            </div>
+                                            <div class="balance-value danger">
+                                                <span id="project_running">xxx</span>
+                                            </div>
+                                            <div class="balance-link">
+                                            </div>
                                         </div>
                                     </div>
+                                    <!--END - BALANCES-->
                                 </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                <div class="element-content">
-                    <div class="row">
-
-                        <div class="element-box" style="width:100%">
-                            <div class="container-fluid">
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                <div class="element-content">
-                    <div class="row">
-
-                        <div class="element-box" style="width:100%">
-                            <div class="container-fluid">
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="nav-file" role="tabpanel" aria-labelledby="nav-contact-tab">
-                <div class="element-content">
-                    <div class="row">
-
-                        <div class="element-box" style="width:100%">
-                            <div class="container-fluid">
-
-                                <div class="row">
-                                    <div class="col-10"></div>
-                                    <div class="col-1">
-                                        <button type="button" onclick="OpenUploader();" class="btn btn-outline-primary">Upload</button>
+                                <div class="col-lg-5 col-xxl-6">
+                                    <!--START - MESSAGE ALERT-->
+                                    <div class="alert alert-info borderless">
+                                        <h5 class="alert-heading">
+                                            Projet Description
+                                        </h5>
+                                        <p id="project_description">
+                                            {{project_desc}}
+                                        </p>
                                     </div>
-                                    <div class="col-1">
-                                        <button type="button" onclick="location.reload(); " class="btn btn-outline-primary">Refresh</button>
-                                    </div>
+                                    <!--END - MESSAGE ALERT-->
                                 </div>
-
-                                <div class="table-responsive">
-                                    <table width="100%" class="table table-lightfont" id="tableFiles">
-                                        <thead >
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>File Name</th>
-                                            <th>Uploader</th>
-                                            <th>Project Name</th>
-                                            <th>Uploaded On</th>
-                                            <th>Action</th>
-                                        </tr>
-
-                                        </thead>
-                                        <tbody id="tfiles"></tbody>
-                                    </table>
-                                </div>
-
                             </div>
-
                         </div>
 
                     </div>
+
                 </div>
-            </div>
-            <div class="tab-pane fade" id="nav-tickets" role="tabpanel" aria-labelledby="nav-contact-tab">
-                <div class="element-content">
-                    <div class="row">
 
-                        <div class="element-box" style="width:100%">
-                            <div class="container-fluid">
-                                asu
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
             </div>
         </div>
     </div>
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div class="element-content">
+            <div class="row">
+
+                <div class="element-box" style="width:100%">
+                    <div class="container-fluid">
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <div class="element-content">
+            <div class="row">
+
+                <div class="element-box" style="width:100%">
+                    <div class="container-fluid">
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="nav-file" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <div class="element-content">
+            <div class="row">
+
+                <div class="element-box" style="width:100%">
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-10"></div>
+                            <div class="col-1">
+                                <button type="button" onclick="OpenUploader();" class="btn btn-outline-primary">Upload</button>
+                            </div>
+                            <div class="col-1">
+                                <button type="button" onclick="location.reload(); " class="btn btn-outline-primary">Refresh</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table width="100%" class="table table-lightfont" id="tableFiles">
+                                <thead >
+                                <tr>
+                                    <th>No.</th>
+                                    <th>File Name</th>
+                                    <th>Uploader</th>
+                                    <th>Project Name</th>
+                                    <th>Uploaded On</th>
+                                    <th>Action</th>
+                                </tr>
+
+                                </thead>
+                                <tbody id="tfiles"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-tickets" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <div class="element-content">
+            <div class="row">
+
+                <div class="element-box" style="width:100%">
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-10"></div>
+                            <div class="col-1">
+                                <button type="button" onclick="OpenUploader();" class="btn btn-outline-primary">+ Ticket</button>
+                            </div>
+                            <div class="col-1">
+                                <button type="button" onclick="location.reload(); " class="btn btn-outline-primary">Refresh</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table width="100%" class="table table-lightfont" id="tableFiles">
+                                <thead >
+                                <tr>
+                                    <th>No.</th>
+                                    <th>File Name</th>
+                                    <th>Uploader</th>
+                                    <th>Project Name</th>
+                                    <th>Uploaded On</th>
+                                    <th>Action</th>
+                                </tr>
+
+                                </thead>
+                                <tbody id="ttickets"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
 </div>
 
