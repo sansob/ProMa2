@@ -7,6 +7,7 @@ namespace DataAccess.Models {
     [Table("TB_M_Projects")]
     public class Project : BaseModel {
         public string Project_name { get; set; }
+        public string Project_module { get; set; }
         public DateTimeOffset Project_Start { get; set; }
         public DateTimeOffset Project_Deadline { get; set; }
         public string Project_Detail { get; set; }
@@ -19,6 +20,7 @@ namespace DataAccess.Models {
 
         public Project(ProjectVM projectVm) {
             Project_name = projectVm.Project_name;
+            Project_module = projectVm.Project_module;
             Project_Deadline = projectVm.Project_Deadline;
             Project_Start = projectVm.Project_Start;
             Project_Detail = projectVm.Project_Detail;
@@ -28,6 +30,7 @@ namespace DataAccess.Models {
 
         public void Update(ProjectVM projectVm) {
             Project_name = projectVm.Project_name;
+            Project_module = projectVm.Project_module;
             Project_Deadline = projectVm.Project_Deadline;
             Project_Start = projectVm.Project_Start;
             Project_Detail = projectVm.Project_Detail;

@@ -45,6 +45,31 @@ namespace Client.Controllers
             return Json(projectVms, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetProjectTask()
+        {
+            IEnumerable<Project> projects = null;
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri(get.link)
+            };
+            var responseTask = client.GetAsync("Project?modulQuery=task");
+            responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<IList<Project>>();
+                readTask.Wait();
+                projects = readTask.Result;
+            }
+            else
+            {
+                projects = Enumerable.Empty<Project>();
+                ModelState.AddModelError(string.Empty, "Server error");
+            }
+
+            return Json(projects, JsonRequestBehavior.AllowGet);
+        }
+
         public void InsertOrUpdate(Project project)
         {
             var client = new HttpClient
