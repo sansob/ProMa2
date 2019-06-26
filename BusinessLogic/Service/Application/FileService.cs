@@ -29,6 +29,11 @@ namespace BusinessLogic.Service.Application
             return _fileRepository.GetSearch(searchQuery);
         }
 
+        public List<File> GetFileByProject(int id)
+        {
+            return _fileRepository.GetFileByProject(id);
+        }
+
         public File Get(int id)
         {
             return _fileRepository.Get(id);

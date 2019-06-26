@@ -8,6 +8,7 @@ namespace BusinessLogic.Service
     {
         List<File> Get();
         List<File> GetSearch(string searchQuery);
+        List<File> GetFileByProject(int id);
         File Get(int id);
         bool Insert(FileVM fileVm);
         bool Update(int id, FileVM fileVm);

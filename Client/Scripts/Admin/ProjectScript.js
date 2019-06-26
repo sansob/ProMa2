@@ -27,8 +27,10 @@ function LoadIndexProject() {
                     html += '<td>' + moment(val.Project_Start).format("MM/DD/YYYY") + '</td>';
                     html += '<td>' + moment(val.Project_Deadline).format("MM/DD/YYYY") + '</td>';
                     html += '<td>' + val.Status.Status_name + '</td>';
+                    
                     html += '<td>' +
                         '<a class="btn btn-outline-info btn-sm" onclick="return GetById(' + val.Id + ')" ><i class="os-icon os-icon-edit-1"></i><span>Edit</span></a>';
+                    html += '  <a class="btn btn-outline-danger btn-sm" onclick="return GoToProject(' + val.Id + ')" ><i class="os-icon os-icon-window-content"></i><span>View</span></a>';
                     html += '  <a class="btn btn-outline-danger btn-sm" onclick="return Delete(' + val.Id + ')" ><i class="os-icon os-icon-cancel-square"></i><span>Delete</span></a>';
 
                     html += '</tr>';
@@ -40,6 +42,10 @@ function LoadIndexProject() {
     });
 }
 
+function GoToProject(Id){
+    var url= "/ProjectDetail/Detail/"+Id;
+    window.location = url;
+}
 function LoadStatusProject() {
     $.ajax({
         type: "GET",
@@ -115,6 +121,7 @@ function Save() {
 }
 
 function GetById(Id) {
+    debugger;
     $('#Update').show();
     $('#Save').hide();
     $.ajax({

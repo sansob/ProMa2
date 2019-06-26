@@ -27,6 +27,12 @@ namespace Common.Repository.Application
                 .ToList();
         }
 
+        public List<File> GetFileByProject(int id)
+        {
+            return _applicationContext.Files.Include("Project").Where(X => X.IsDelete == false && X.Project_Id == id)
+                .OrderByDescending(c => c.Id).ToList();
+        }
+
         public File Get(int id)
         {
             return _applicationContext.Files.Include("Project").SingleOrDefault(x => x.Id == id && x.IsDelete == false);
