@@ -18,6 +18,7 @@ namespace DataAccess.Models
         public void Update(RuleVM ruleVM)
         {
             Id = ruleVM.Id;
+            Rule_Name = ruleVM.Rule_Name;
             UpdateDate = DateTimeOffset.Now.ToLocalTime();
         }
         public void Delete()

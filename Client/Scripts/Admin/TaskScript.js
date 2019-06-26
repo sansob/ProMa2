@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     LoadIndexTask();
     LoadStatusTask();
+    LoadProjectTask();
     $('#tableProjects').DataTable({
         "ajax": LoadIndexTask(),
         "paging": true,
@@ -60,6 +61,28 @@ function LoadStatusTask() {
                 });
 
             $('#task_status').html(html);
+        }
+    });
+}
+
+function LoadProjectTask() {
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: "/Project/GetProjectTask/",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            var html = '';
+
+            html += '<option value="" selected disabled hidden>Choose here</option>';
+
+            $.each(data,
+                function (index, val) {
+                    html += ' <option value="' + val.Id + '">' + val.Project_name + '</option>';
+                });
+
+            $('#project_Name').html(html);
         }
     });
 }

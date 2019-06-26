@@ -37,6 +37,7 @@ function LoadIndexRule() {
 }
 
 function Edit() {
+    debugger;
     var rule = new Object();
     rule.Id = $('#id').val();
     rule.Rule_Name = $('#Rule_Name').val();
