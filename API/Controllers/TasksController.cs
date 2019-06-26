@@ -41,6 +41,19 @@ namespace API.Controllers
             }
             return message;
         }
+
+        // GET: api/Tasks/5
+        public HttpResponseMessage GetTaskByProjectId(int project_id)
+        {
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotModified, "Not Modified");
+            var result = iTaskService.Get(project_id);
+            if (result != null)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            return message;
+        }
+
         // PUT: api/Tasks/5
         public HttpResponseMessage PutTasks(int id, TaskVM taskVM)
         {
