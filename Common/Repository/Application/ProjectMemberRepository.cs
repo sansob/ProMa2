@@ -52,6 +52,13 @@ namespace Common.Repository.Application
             return get;
         }
 
+        public List<ProjectMember> GetProjectMemberByProjectId(int project_id)
+        {
+            var get = applicationContext.ProjectMembers.Include("Project").Where(x => 
+            x.Project_Id.Equals(project_id) && x.IsDelete == false).ToList();
+            return get;
+        }
+
         public bool Insert(ProjectMemberVM projectMemberVM)
         {
             var push = new ProjectMember(projectMemberVM);

@@ -31,6 +31,11 @@ namespace BusinessLogic.Service.Application
             return iTaskRepository.Get(id);
         }
 
+        public List<Task> GetTaskByProjectId(int project_id)
+        {
+            return iTaskRepository.GetTaskByProjectId(project_id);
+        }
+
         public bool Insert(TaskVM taskVM)
         {
             if (string.IsNullOrWhiteSpace(taskVM.Project_Id.ToString())&&

@@ -30,6 +30,12 @@ namespace BusinessLogic.Service.Application
         {
             return iProjectMemberRepository.Get(id);
         }
+
+        public List<ProjectMember> GetProjectMemberByProjectId(int project_id)
+        {
+            return iProjectMemberRepository.GetProjectMemberByProjectId(project_id);
+        }
+
         public bool Insert(ProjectMemberVM projectMemberVM)
         {
             if(string.IsNullOrWhiteSpace(projectMemberVM.Project_Id.ToString())&&
@@ -43,6 +49,7 @@ namespace BusinessLogic.Service.Application
                 return iProjectMemberRepository.Insert(projectMemberVM);
             }
         }
+
         public bool Update(int id, ProjectMemberVM projectMemberVM)
         {
             if (string.IsNullOrWhiteSpace(projectMemberVM.Project_Id.ToString()))

@@ -8,6 +8,7 @@ namespace BusinessLogic.Service
     {
         List<ProjectMember> Get();
         List<ProjectMember> GetSearch(string values);
+        List<ProjectMember> GetProjectMemberByProjectId(int project_id);
         ProjectMember Get(int id);
         bool Insert(ProjectMemberVM projectMemberVM);
         bool Update(int id, ProjectMemberVM projectMemberVM);
