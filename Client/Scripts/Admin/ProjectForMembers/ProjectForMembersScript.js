@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     LoadIndexProjectForMember();
-    $('#tableProjects').DataTable({
+    $('# ').DataTable({
         "ajax": LoadIndexProjectForMember(),
         "paging": true,
         "filter": true,
