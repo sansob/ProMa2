@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     LoadIndexProject();
+    LoadStatusProject();
     $('#tableProjects').DataTable({
         "ajax": LoadIndexProject(),
         "paging": true,
@@ -35,6 +36,28 @@ function LoadIndexProject() {
                 });
 
             $('.tbody').html(html);
+        }
+    });
+}
+
+function LoadStatusProject() {
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: "/Status/GetStatusProject/",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            var html = '';
+            
+            html += '<option value="" selected disabled hidden>Choose here</option>';
+            
+            $.each(data,
+                function (index, val) {
+                    html += ' <option value="'+val.Id+'">'+val.Status_name+'</option>';
+                });
+
+            $('#project_status').html(html);
         }
     });
 }
@@ -83,7 +106,6 @@ function Save() {
                     function () {
                         location.reload();
                     });
-
                 LoadIndexProject();
             }
         });
@@ -145,6 +167,7 @@ function ClearScreen() {
     $('#project_Name').val('');
     $('#project_start').val('');
     $('#project_end').val('');
+    $('#project_status').val('');
     $('#project_description').val('');
     $('#Update').hide();
 }
@@ -160,13 +183,13 @@ function Validate() {
         swal("Oops", "Start date is lower then today, today is "+moment().format("MM/DD/YYYY"), "error")
     }
     else if ($('#project_end').val() <= moment().format("MM/DD/YYYY") ) {
-        swal("Oops", "Minimum project duration is one day. ", "error")
+        swal("Oops", "Minimum project duration is one day. ", "error" )
     }
     
     else if ($('#project_description').val() == "" || $('#project_description').val() == " ") {
         swal("Oops", "Please add project description", "error")
     }
-    else if ($('#Id').val() == "") {
+    else if ($('#id').val() == "" || $('#id').val() == " ") {
         Save();
     } else {
         Edit();
