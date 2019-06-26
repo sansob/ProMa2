@@ -22,7 +22,7 @@ namespace Common.Repository.Application {
         }
 
         public Project Get(int id) {
-            return _applicationContext.Projects.Find(id);
+            return _applicationContext.Projects.Include("Status").SingleOrDefault(x => x.Id == id && x.IsDelete == false);
         }
 
         public bool Insert(ProjectVM projectVm) {
@@ -67,7 +67,7 @@ namespace Common.Repository.Application {
             }
 
             get.Delete();
-            _applicationContext.Entry(get).State = System.Data.Entity.EntityState.Modified;
+            _applicationContext.Entry(get).State = EntityState.Modified;
             _applicationContext.SaveChanges();
             return true;
         }

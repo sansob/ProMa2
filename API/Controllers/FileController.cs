@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -8,44 +8,28 @@ using DataAccess.ViewModels;
 
 namespace API.Controllers
 {
-    public class StatusController : ApiController
+    public class FileController : ApiController
     {
         private ApplicationContext db = new ApplicationContext();
 
-        public StatusController()
+        public FileController()
         {
         }
 
-        private readonly IStatusService _iStatusService;
+        private readonly IFileService _fileService;
 
-        public StatusController(IStatusService iStatusService)
+        public FileController(IFileService iFileService)
         {
-            _iStatusService = iStatusService;
+            _fileService = iFileService;
         }
 
         // GET: api/Projects
-        public HttpResponseMessage GetStatus()
+        public HttpResponseMessage GetFiles()
         {
             try
             {
                 var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "404 : Data Not Found");
-                var result = _iStatusService.Get();
-                if (result != null) message = Request.CreateResponse(HttpStatusCode.OK, result);
-
-                return message;
-            }
-            catch (Exception)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "500 : Internal Server Error");
-            }
-        }
-
-        public HttpResponseMessage GetStatusByModule(string modulQuery)
-        {
-            try
-            {
-                var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "404 : Data Not Found");
-                var result = _iStatusService.GetStatusByModule(modulQuery);
+                var result = _fileService.Get();
                 if (result != null) message = Request.CreateResponse(HttpStatusCode.OK, result);
 
                 return message;
@@ -57,12 +41,12 @@ namespace API.Controllers
         }
 
         // GET: api/Projects/5
-        public HttpResponseMessage GetStatus(int id)
+        public HttpResponseMessage GetFiles(int id)
         {
             try
             {
                 var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "404 : Data Not Found");
-                var result = _iStatusService.Get(id);
+                var result = _fileService.Get(id);
                 if (result != null) message = Request.CreateResponse(HttpStatusCode.OK, result);
 
                 return message;
@@ -74,13 +58,13 @@ namespace API.Controllers
         }
 
         // PUT: api/Projects/5
-        public HttpResponseMessage PutStatus(int id, StatusVM statusVm)
+        public HttpResponseMessage PutFile(int id, FileVM fileVm)
         {
             try
             {
                 var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "404 : Data Not Found");
-                var result = _iStatusService.Update(id, statusVm);
-                if (result) message = Request.CreateResponse(HttpStatusCode.OK, statusVm);
+                var result = _fileService.Update(id, fileVm);
+                if (result) message = Request.CreateResponse(HttpStatusCode.OK, fileVm);
 
                 return message;
             }
@@ -91,22 +75,22 @@ namespace API.Controllers
         }
 
         // POST: api/Projects
-        public HttpResponseMessage InsertStatus(StatusVM statusVm)
+        public HttpResponseMessage InsertProject(FileVM fileVm)
         {
             var message = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad Request");
-            var result = _iStatusService.Insert(statusVm);
-            if (result) message = Request.CreateResponse(HttpStatusCode.OK, statusVm);
+            var result = _fileService.Insert(fileVm);
+            if (result) message = Request.CreateResponse(HttpStatusCode.OK, fileVm);
 
             return message;
         }
 
         // DELETE: api/Projects/5
-        public HttpResponseMessage DeleteStatus(int id)
+        public HttpResponseMessage DeleteProject(int id)
         {
             try
             {
                 var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "404 : Data Not Found");
-                var result = _iStatusService.Delete(id);
+                var result = _fileService.Delete(id);
                 if (result) message = Request.CreateResponse(HttpStatusCode.OK, "200 : OK (Data Deleted)");
 
                 return message;
