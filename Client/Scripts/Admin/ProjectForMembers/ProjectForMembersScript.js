@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     LoadIndexProjectForMember();
-    $('# ').DataTable({
+    $('#tableProjects').DataTable({
         "ajax": LoadIndexProjectForMember(),
         "paging": true,
         "filter": true,
@@ -26,10 +26,6 @@ function LoadIndexProjectForMember() {
                     html += '<td>' + moment(val.Project.Project_Start).format("MM/DD/YYYY") + '</td>';
                     html += '<td>' + moment(val.Project.Project_Deadline).format("MM/DD/YYYY") + '</td>';                   
                     html += '<td>' + val.Project.Status.Status_name + '</td>'; 
-                    html += '<td>' +
-                        '<a class="btn btn-outline-info btn-sm" onclick="return GetById(' + val.Id + ')" ><i class="os-icon os-icon-edit-1"></i><span>Edit</span></a>';
-                    html += '  <a class="btn btn-outline-danger btn-sm" onclick="return Delete(' + val.Id + ')" ><i class="os-icon os-icon-cancel-square"></i><span>Delete</span></a>';
-
                     html += '</tr>';
                     i++;
                 });
