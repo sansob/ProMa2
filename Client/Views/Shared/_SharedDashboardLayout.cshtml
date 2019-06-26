@@ -580,13 +580,19 @@ START - Main Menu
                 <div class="sub-menu-i">
                     <ul class="sub-menu">
                         <li>
+                            @Html.ActionLink("Project Dashboard", "Index", "ProjectDashboard")
+                        </li>
+                        <li>
                             @Html.ActionLink("Project List", "Index", "Projects")
                         </li>
                         <li>
-                            <a href="apps_support_dashboard.html">Project Member</a>
+                            @Html.ActionLink("Project For Member", "Index", "ProjectForMembers")
                         </li>
                         <li>
-                            <a href="apps_support_index.html">Tickets Index</a>
+                            @Html.ActionLink("Ticket List", "Index", "Tickets")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Reply List", "Index", "Replies")
                         </li>
                         <li>
                             @Html.ActionLink("File Index", "Index", "File")
@@ -616,7 +622,7 @@ START - Main Menu
                 <div class="sub-menu-i">
                     <ul class="sub-menu">
                         <li>
-                            <a href="tables_regular.html">Rule List</a>
+                            @Html.ActionLink("Rule List", "Index", "Rules")
                         </li>
                         <li>
                             @Html.ActionLink("Status List", "Index", "Status")

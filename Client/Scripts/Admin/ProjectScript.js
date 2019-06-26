@@ -69,7 +69,7 @@ function Edit() {
     project.Project_Start = $('#project_start').val();
     project.Project_Deadline = $('#project_end').val();
     project.Project_Detail = $('#project_description').val();
-    project.Status_Id = '1';
+    project.Status_Id =  $('#project_status').val();
     $.ajax({
         url: '/Projects/InsertOrUpdate/',
         data: project,
@@ -92,7 +92,7 @@ function Save() {
     project.Project_Start = $('#project_start').val();
     project.Project_Deadline = $('#project_end').val();
     project.Project_Detail = $('#project_description').val();
-    project.Status_Id = '1';
+    project.Status_Id =  $('#project_status').val();
     
         $.ajax({
             url: '/Projects/InsertOrUpdate/',
@@ -178,6 +178,9 @@ function Validate() {
     } 
     else if ($('#project_start').val() == "" || $('#project_start').val() == " ") {
         swal("Oops", "Please add project start", "error")
+    }    
+    else if ($('#project_status').val() == "" || $('#project_status').val() == " ") {
+        swal("Oops", "Please select project status", "error")
     }
     else if ($('#project_start').val() < moment().format("MM/DD/YYYY") ) {
         swal("Oops", "Start date is lower then today, today is "+moment().format("MM/DD/YYYY"), "error")
