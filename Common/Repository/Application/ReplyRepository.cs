@@ -51,6 +51,14 @@ namespace Common.Repository.Application
             return get;
         }
 
+        public List<Reply> GetStatusByTicketId(int ticket_id)
+        {
+            var get = applicationContext.Replies.Include("Ticket").Where
+                (x => x.Ticket_Id.Equals(ticket_id) &&
+                x.IsDelete == false).ToList();
+            return get;
+        }
+
         public bool Insert(ReplyVM replyVM)
         {
             var push = new Reply(replyVM);

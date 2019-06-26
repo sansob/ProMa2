@@ -10,6 +10,7 @@ namespace Common.Repository
 {
     public interface IReplyRepository
     {
+        List<Reply> GetStatusByTicketId(int ticket_id);
         List<Reply> Get();
         List<Reply> GetSearch(string values);
         Reply Get(int id);
