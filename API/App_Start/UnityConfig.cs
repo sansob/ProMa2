@@ -25,7 +25,8 @@ namespace API
             container.RegisterType<IRuleRepository, RuleRepository>();
             container.RegisterType<ITaskRepository, TaskRepository>();
             container.RegisterType<IProjectMemberRepository, ProjectMemberRepository>();
-
+            container.RegisterType<IFileRepository, FileRepository>();
+            
             //this is for service 
             container.RegisterType<IProjectService, ProjectService>();
             container.RegisterType<IStatusService, StatusService>();
@@ -34,6 +35,7 @@ namespace API
             container.RegisterType<IRuleService, RuleService>();
             container.RegisterType<ITaskService, TaskService>();
             container.RegisterType<IProjectMemberService, ProjectMemberService>();
+            container.RegisterType<IFileService, FileService>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

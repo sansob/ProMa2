@@ -10,6 +10,7 @@ namespace DataAccess.Models {
         public DateTimeOffset Project_Start { get; set; }
         public DateTimeOffset Project_Deadline { get; set; }
         public string Project_Detail { get; set; }
+        public int? Project_OwnerId { get; set; }
         [ForeignKey("Status")] public int Status_Id { get; set; }
         public Status Status { get; set; }
 
@@ -21,6 +22,7 @@ namespace DataAccess.Models {
             Project_Deadline = projectVm.Project_Deadline;
             Project_Start = projectVm.Project_Start;
             Project_Detail = projectVm.Project_Detail;
+            Project_OwnerId = projectVm.Project_OwnerId;
             CreateDate = DateTimeOffset.Now.LocalDateTime;
         }
 
@@ -29,6 +31,7 @@ namespace DataAccess.Models {
             Project_Deadline = projectVm.Project_Deadline;
             Project_Start = projectVm.Project_Start;
             Project_Detail = projectVm.Project_Detail;
+            Project_OwnerId = projectVm.Project_OwnerId;
             UpdateDate = DateTimeOffset.Now.LocalDateTime;
         }
 

@@ -46,7 +46,7 @@ namespace API.Controllers {
 
                 return message;
             }
-            catch (Exception e) {
+            catch (Exception) {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "500 : Internal Server Error");
             }
         }
@@ -62,7 +62,7 @@ namespace API.Controllers {
 
                 return message;
             }
-            catch (Exception e) {
+            catch (Exception) {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "500 : Internal Server Error");
             }
         }
@@ -89,7 +89,7 @@ namespace API.Controllers {
 
                 return message;
             }
-            catch (Exception e) {
+            catch (Exception) {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "500 : Internal Server Error");
             }
         }
