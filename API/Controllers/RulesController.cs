@@ -48,7 +48,7 @@ namespace API.Controllers
             var result = iRuleService.Update(id, ruleVM);
             if (result)
             {
-                message = Request.CreateResponse(HttpStatusCode.OK,result, "Update successfully");
+                message = Request.CreateResponse(HttpStatusCode.OK, "Update successfully");
             }
             return message;
         }
