@@ -39,6 +39,31 @@ function LoadIndexRule() {
 
 
 
+function Save() {
+    var ticket = new Object();
+    ticket.Status_Id = $('#status_name').val();
+    ticket.Project_Id = $('#project_name').val();
+    ticket.Message = $('#message').val();
+    ticket.Date = $('#date').val();
+
+    $.ajax({
+        url: '/Tickets/InsertOrUpdate/',
+        data: ticket,
+        success: function (result) {
+            swal({
+                title: "Saved!",
+                text: "That data has been save!",
+                type: "success"
+            },
+                function () {
+                    location.reload();
+                });
+            LoadIndexProject();
+        }
+    });
+    ClearScreenTicket();
+}
+
 function Delete(Id) {
     debugger;
     swal({
@@ -62,7 +87,7 @@ function Delete(Id) {
                     function () {
                         window.location.href = '/Tickets/Index/';
                     });
-                ClearScreen();
+                ClearScreenTicket();
             },
             error: function (response) {
                 swal("Oops", "We couldn't connect to the server!", "error");
@@ -70,3 +95,52 @@ function Delete(Id) {
         });
     });
 }
+
+function GetById(Id) {
+    debugger;
+    $('#Update').show();
+    $('#Save').hide();
+    $.ajax({
+        url: "/Tickets/GetById/",
+        data: { Id: Id },
+        success: function (result) {
+            $('#id').val(result.Id);
+            $('#project_name').val(result.Project.Project_name);
+            $('#status_name').val(result.Status.Status_name);            
+            $('#date').val(moment(result.Date).format("MMM Do YY"));
+            $('#message').val(result.Message);
+            $('#modelAddNew').modal('show');
+        }
+    })
+}
+
+function LoadStatusTicket() {
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: "/Tickets/GetTicketStatus/",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            var html = '';
+            html += '<option value="" selected disabled hidden>Choose here</option>';
+
+            $.each(data,
+                function (index, val) {
+                    html += ' <option value="' + val.Id + '">' + val.Status_name + '</option>';
+                });
+
+            $('#status_name').html(html);
+        }
+    });
+}
+
+    
+
+function ClearScreenTicket() {
+    $('#Save').show();
+    $('#id').val('');
+    $('#status_name').val('');
+    $('#message').val('');
+    $('#date').val('');
+    $('#Update').hide();
