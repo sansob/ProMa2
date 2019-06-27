@@ -54,7 +54,7 @@ namespace Common.Repository.Application
 
         public List<ProjectMember> GetProjectMemberByProjectId(int project_id)
         {
-            var get = applicationContext.ProjectMembers.Include("Project").Where(x => 
+            var get = applicationContext.ProjectMembers.Include("Project").Include("Project.Status").Include("Rule").Where(x => 
             x.Project_Id.Equals(project_id) && x.IsDelete == false).ToList();
             return get;
         }

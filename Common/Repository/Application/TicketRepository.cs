@@ -56,7 +56,7 @@ namespace Common.Repository.Application
         {
             var get = applicationContext.Tickets.Include("Status").Include("ProjectMember.Rule").Include("Project").Where
                 (x => x.Project_Id.Equals(project_id) &&
-                x.IsDelete == false).ToList();
+                x.IsDelete == false).OrderByDescending(c => c.Id).ToList();
             return get;
         }
 

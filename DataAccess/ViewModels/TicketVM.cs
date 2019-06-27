@@ -22,23 +22,21 @@ namespace DataAccess.ViewModels
         public Project Project { get; set; }
         public TicketVM() { }
 
-        public TicketVM(int status_Id, int fromMember_Id, int project_Id, string message, DateTimeOffset date)
+        public TicketVM(int status_Id, int fromMember_Id, int project_Id, string message)
         {
             this.Status_Id = status_Id;
             this.FromMember_Id = fromMember_Id;
             this.Project_Id = project_Id;
             this.Message = message;
-            this.Date = date;
         }
 
-        public void Update(int id, int status_Id, int fromMember_Id, int project_Id, string message, DateTimeOffset date)
+        public void Update(int id, int status_Id, int fromMember_Id, int project_Id, string message)
         {
             this.Id = id;
             this.Status_Id = status_Id;
             this.FromMember_Id = fromMember_Id;
             this.Project_Id = project_Id;
             this.Message = message;
-            this.Date = date;
         }
     }
 }

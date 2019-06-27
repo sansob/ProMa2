@@ -1,7 +1,10 @@
 @using System.Web.UI.WebControls
+@using Microsoft.AspNet.Identity
 @{
     Layout = null;
 }
+
+
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +30,6 @@
 </head>
 <body class="menu-position-side menu-side-left full-screen with-content-panel">
 <div class="all-wrapper with-side-panel solid-bg-all">
-
 <div class="search-with-suggestions-w">
     <div class="search-with-suggestions-modal">
         <div class="element-search">
@@ -186,7 +188,7 @@ START - Mobile Menu
                     Sansob
                 </div>
                 <div class="logged-user-role">
-                    Administrator
+                    
                 </div>
             </div>
         </div>
@@ -274,10 +276,10 @@ START - Main Menu
             </div>
             <div class="logged-user-info-w">
                 <div class="logged-user-name">
-                    Sansob
+                    @User.Identity.GetUserName()
                 </div>
                 <div class="logged-user-role">
-                    Administrator
+                    
                 </div>
             </div>
             <div class="logged-user-toggler-arrow">
@@ -290,10 +292,10 @@ START - Main Menu
                     </div>
                     <div class="logged-user-info-w">
                         <div class="logged-user-name">
-                            Maria Gomez
+                           Hello
                         </div>
                         <div class="logged-user-role">
-                            Administrator
+                            
                         </div>
                     </div>
                 </div>
@@ -302,7 +304,7 @@ START - Main Menu
                 </div>
                 <ul>
                     <li>
-                        <a href="#">
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
                             <i class="os-icon os-icon-signs-11"></i><span>Logout</span>
                         </a>
                     </li>
@@ -313,7 +315,10 @@ START - Main Menu
     <h1 class="menu-page-header">
         Page Header
     </h1>
-    <ul class="main-menu">
+    
+    @if (User.IsInRole("Admin"))
+    {
+        <ul class="main-menu">
         <li class="sub-header">
             <span>Dashboard</span>
         </li>
@@ -354,9 +359,6 @@ START - Main Menu
                 </div>
                 <div class="sub-menu-i">
                     <ul class="sub-menu">
-                        <li>
-                            @Html.ActionLink("Project Dashboard", "Index", "ProjectDashboard")
-                        </li>
                         <li>
                             @Html.ActionLink("Project List", "Index", "Projects")
                         </li>
@@ -407,6 +409,62 @@ START - Main Menu
             </div>
         </li>
     </ul>
+    }
+    else
+    {
+        <ul class="main-menu">
+        <li class="sub-header">
+            <span>Dashboard</span>
+        </li>
+        <li class="selected">
+            <a href="http://localhost:50677/Dashboard">
+                <div class="icon-w">
+                    <div class="os-icon os-icon-layout"></div>
+                </div>
+                <span>Dashboard</span>
+            </a>
+            <div class="sub-menu-w">
+                <div class="sub-menu-header">
+                    Dashboard
+                </div>
+                <div class="sub-menu-icon">
+                    <i class="os-icon os-icon-layout"></i>
+                </div>
+
+            </div>
+        </li>
+
+        <li class="sub-header">
+            <span>Managements</span>
+        </li>
+        <li class=" has-sub-menu">
+            <a href="#">
+                <div class="icon-w">
+                    <div class="os-icon os-icon-package"></div>
+                </div>
+                <span>Project Managements</span>
+            </a>
+            <div class="sub-menu-w">
+                <div class="sub-menu-header">
+                    Project Managements
+                </div>
+                <div class="sub-menu-icon">
+                    <i class="os-icon os-icon-package"></i>
+                </div>
+                <div class="sub-menu-i">
+                    <ul class="sub-menu">
+                        <li>
+                            @Html.ActionLink("Project Dashboard", "Index", "ProjectDashboard")
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </li>
+        
+    </ul>
+    }
+   
 
 </div>
 <!--------------------
@@ -434,10 +492,10 @@ END - Main Menu
                             </div>
                             <div class="logged-user-info-w">
                                 <div class="logged-user-name">
-                                    Maria Gomez
+                                    Hello
                                 </div>
                                 <div class="logged-user-role">
-                                    Administrator
+                                    @User.Identity.GetUserName();
                                 </div>
                             </div>
                         </div>
@@ -446,7 +504,7 @@ END - Main Menu
                         </div>
                         <ul>
                             <li>
-                                <a href="#">
+                                <a href="javascript:document.getElementById('logoutForm').submit()">
                                     <i class="os-icon os-icon-signs-11"></i><span>Logout</span>
                                 </a>
                             </li>
@@ -545,5 +603,20 @@ END - Main Menu
       ga('create', 'UA-XXXXXXX-9', 'auto');
       ga('send', 'pageview');
     </script>
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+        @Html.AntiForgeryToken()
+        
+        }
+    }
+    else{
+        <script>
+        window.location = "http://localhost:50677/Account/Login"; 
+        </script>
+    }
+    
+
 </body>
 </html>

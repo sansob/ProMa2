@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace Client.Controllers
 {
+    [Authorize]
     public class ProjectMembersController : Controller
     {
         BaseLink get = new BaseLink();
@@ -42,6 +43,31 @@ namespace Client.Controllers
             return Json(projectMember, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult LoadProjectMemberFromProjectId(int id)
+        {
+            IEnumerable<ProjectMember> files = null;
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri(get.link)
+            };
+            var responseTask = client.GetAsync("ProjectMm/"+ id);
+            responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<IList<ProjectMember>>();
+                readTask.Wait();
+                files = readTask.Result;
+            }
+            else
+            {
+                files = Enumerable.Empty<ProjectMember>();
+                ModelState.AddModelError(string.Empty, "Server error");
+            }
+
+            return Json(files, JsonRequestBehavior.AllowGet);
+        }
+        
         public void InsertOrUpdate(ProjectMember projectMember)
         {
             var client = new HttpClient

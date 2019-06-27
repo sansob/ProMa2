@@ -42,18 +42,6 @@ namespace API.Controllers
             return message;
         }
 
-        // GET: api/ProjectMembers/5
-        public HttpResponseMessage GetProjectMemberByProjectId(int project_id)
-        {
-            var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "NotFound");
-            var result = iProjectMemberService.Get(project_id);
-            if (result != null)
-            {
-                message = Request.CreateResponse(HttpStatusCode.OK, result);
-            }
-            return message;
-        }
-
         // PUT: api/ProjectMembers/5
         public HttpResponseMessage PutProjectMember(int id, ProjectMemberVM projectMemberVM)
         {

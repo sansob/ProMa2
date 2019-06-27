@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 namespace Client.Controllers
 {
+    [Authorize]
     public class StatusController : Controller
     {
         BaseLink get = new BaseLink();

@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Client.Controllers
 {
+    [Authorize]
     public class ProjectForMembersController : Controller
     {
         BaseLink get = new BaseLink();

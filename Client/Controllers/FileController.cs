@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace Client.Controllers
 {
+    [Authorize]
     public class FileController : Controller
     {
         private readonly BaseLink get = new BaseLink();

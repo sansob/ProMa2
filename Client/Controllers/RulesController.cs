@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace Client.Controllers
 {
+    [Authorize]
     public class RulesController : Controller
     {
         BaseLink get = new BaseLink();

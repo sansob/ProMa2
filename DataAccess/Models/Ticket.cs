@@ -26,14 +26,14 @@ namespace DataAccess.Models
         public Ticket (TicketVM ticketVM)
         {            
             Message = ticketVM.Message;
-            Date = ticketVM.Date;
+            Date = DateTimeOffset.Now.ToLocalTime();
             CreateDate = DateTimeOffset.Now.ToLocalTime();
         }
 
         public void Update(int id, TicketVM ticketVM)
         {
             Message = ticketVM.Message;
-            Date = ticketVM.Date;
+            Date = DateTimeOffset.Now.ToLocalTime();
             UpdateDate = DateTimeOffset.Now.ToLocalTime();
         }
 

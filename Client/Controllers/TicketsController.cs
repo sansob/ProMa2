@@ -12,6 +12,7 @@ using DataAccess.Models;
 
 namespace Client.Controllers
 {
+    [Authorize]
     public class TicketsController : Controller
     {
         BaseLink get = new BaseLink();
