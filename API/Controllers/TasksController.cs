@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
+﻿using System.Web.Http;
 using DataAccess.Context;
-using DataAccess.Models;
 using BusinessLogic.Service;
 using DataAccess.ViewModels;
 using System.Net.Http;
@@ -46,7 +44,19 @@ namespace API.Controllers
         public HttpResponseMessage GetTaskByProjectId(int project_id)
         {
             var message = Request.CreateErrorResponse(HttpStatusCode.NotModified, "Not Modified");
-            var result = iTaskService.Get(project_id);
+            var result = iTaskService.GetTaskByProjectId(project_id);
+            if (result != null)
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            return message;
+        }
+
+        // GET: api/Tasks/5
+        public HttpResponseMessage GetProjectName(string moduleQuery)
+        {
+            var message = Request.CreateErrorResponse(HttpStatusCode.NotModified, "Not Modified");
+            var result = iTaskService.GetProjectName(moduleQuery);
             if (result != null)
             {
                 message = Request.CreateResponse(HttpStatusCode.OK, result);

@@ -8,6 +8,7 @@ namespace BusinessLogic.Service
     {
         List<Task> Get();
         List<Task> GetSearch(string values);
+        List<Task> GetProjectName(string moduleQuery);
         List<Task> GetTaskByProjectId(int project_id);
         Task Get(int id);
         bool Insert(TaskVM taskVM);

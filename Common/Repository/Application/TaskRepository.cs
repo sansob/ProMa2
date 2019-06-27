@@ -33,24 +33,32 @@ namespace Common.Repository.Application
         {
             var get = applicationContext.Tasks
                 .Include("Project")
+                .Include("Status")
                 .Where(x => x.IsDelete == false).ToList();
             return get;
         }
 
         public Task Get(int id)
         {
-            var get = applicationContext.Tasks.Include("Project").SingleOrDefault(x=>x.Id==id);
+            var get = applicationContext.Tasks.Include("Project").Include("Status").SingleOrDefault(x=>x.Id==id);
             return get;
+        }
+
+        public List<Task> GetProjectName(string moduleQuery)
+        {
+            return applicationContext.Tasks.Include("Project").Include("Status").Where(x => x.IsDelete == false && x.Project.Project_name.Contains(moduleQuery)).ToList();
         }
 
         public List<Task> GetSearch(string values)
         {
             var get = applicationContext.Tasks
                 .Include("Project")
+                .Include("Status")
                 .Where(x => (
                     x.Priority.ToString().Contains(values)||
                     x.Status_Id.ToString().Contains(values)||
-                    x.Project.Project_name.Contains(values)
+                    x.Project.Project_name.Contains(values)||
+                    x.Status.Status_name.Contains(values)
                     ) && x.IsDelete == false).ToList();
             return get;
         }
@@ -94,18 +102,30 @@ namespace Common.Repository.Application
         public bool Update(int id, TaskVM taskVM)
         {
             var pull = Get(id);
-            pull.Update(taskVM);
-            applicationContext.Entry(pull).State = EntityState.Modified;
-            var result = applicationContext.SaveChanges();
-            if (result > 0)
+            var getStatus = applicationContext.Statuses.Find(taskVM.Status_Id);
+            var getProject = applicationContext.Projects.Find(taskVM.Project_Id);
+            if(getStatus!=null && getProject != null)
             {
-                status = true;
+                pull.Status = getStatus;
+                pull.Project = getProject;
+                pull.Update(taskVM);
+                applicationContext.Entry(pull).State = EntityState.Modified;
+                var result = applicationContext.SaveChanges();
+                if (result > 0)
+                {
+                    status = true;
+                    return status;
+                }
+                else
+                {
+                    return status;
+                }
             }
             else
             {
                 return status;
             }
-            return status;            
+                       
         }
     }
 }

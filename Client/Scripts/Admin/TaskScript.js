@@ -28,8 +28,10 @@ function LoadIndexTask() {
                     html += '<td>' + val.Description + '</td>';
                     html += '<td>' + moment(val.Start_Date).format("MM/DD/YYYY") + '</td>';
                     html += '<td>' + moment(val.Due_Date).format("MM/DD/YYYY") + '</td>';
-                    html += '<td>' + val.Priority + '</td>';
+                    //html += '<td>' + val.Priority + '</td>';
                     html += '<td>' + val.Status.Status_name + '</td>';
+                    //html += '<td>' + val.Assigned_By_Member + '</td>';
+                    //html += '<td>' + val.Assigned_To_Member + '</td>';
                     html += '<td>' +
                         '<a class="btn btn-outline-info btn-sm" onclick="return GetById(' + val.Id + ')" ><i class="os-icon os-icon-edit-1"></i><span>Edit</span></a>';
                     html += '  <a class="btn btn-outline-danger btn-sm" onclick="return Delete(' + val.Id + ')" ><i class="os-icon os-icon-cancel-square"></i><span>Delete</span></a>';
@@ -60,7 +62,7 @@ function LoadStatusTask() {
                     html += ' <option value="' + val.Id + '">' + val.Status_name + '</option>';
                 });
 
-            $('#task_status').html(html);
+            $('#status_task').html(html);
         }
     });
 }
@@ -69,7 +71,7 @@ function LoadProjectTask() {
     $.ajax({
         type: "GET",
         async: false,
-        url: "/Project/GetProjectTask/",
+        url: "/Projects/GetProjectTask/",
         dataType: "json",
         success: function (data) {
             console.log(data);
@@ -82,7 +84,7 @@ function LoadProjectTask() {
                     html += ' <option value="' + val.Id + '">' + val.Project_name + '</option>';
                 });
 
-            $('#project_Name').html(html);
+            $('#project_task').html(html);
         }
     });
 }
@@ -90,14 +92,14 @@ function LoadProjectTask() {
 function Edit() {
     var task = new Object();
     task.Id = $('#id').val();
-    task.Project_Id = $('#project_Name').val();
+    task.Project_Id = $('#project_task').val();
     task.Description = $('#task_description').val();
     task.Start_Date = $('#start_date').val();
     task.Due_Date = $('#due_date').val();
-    task.Priority = $('#task_priority').val();
-    task.Status_Id = $('#task_status').val();
-    task.Assigned_By_Member = $('#task_by').val();
-    task.Assigned_To_Member = $('#task_to').val();
+    task.Priority = 1;
+    task.Status_Id = $('#status_task').val();
+    task.Assigned_By_Member = 1;
+    task.Assigned_To_Member = 1;
     $.ajax({
         url: '/Tasks/InsertOrUpdate/',
         data: task,
@@ -116,14 +118,14 @@ function Edit() {
 
 function Save() {
     var task = new Object();
-    task.Project_Id = $('#project_Name').val();
+    task.Project_Id = $('#project_task').val();
     task.Description = $('#task_description').val();
     task.Start_Date = $('#start_date').val();
     task.Due_Date = $('#due_date').val();
-    task.Priority = $('#task_priority').val();
-    task.Status_Id = $('#task_status').val();
-    task.Assigned_By_Member = $('#task_by').val();
-    task.Assigned_To_Member = $('#task_to').val();
+    task.Priority = 1;
+    task.Status_Id = $('#status_task').val();
+    task.Assigned_By_Member = 1;
+    task.Assigned_To_Member = 1;
     $.ajax({
         url: '/Tasks/InsertOrUpdate/',
         data: task,
@@ -152,12 +154,10 @@ function GetById(Id) {
         data: { Id: Id },
         success: function (result) {
             $('#id').val(result.Id);
-            $('#project_Name').val(result.Project.Project_name);
             $('#task_description').val(result.Description);
             $('#start_date').val(moment(result.Start_Date).format('MM/DD/YYYY'));
             $('#due_date').val(moment(result.Due_Date).format('MM/DD/YYYY'));
             $('#task_priority').val(result.Priority);
-            $('#task_status').val(result.Status.Status_name);
             $('#task_by').val(result.Assigned_By_Member);
             $('#task_to').val(result.Assigned_To_Member);
             $('#modelAddNew').modal('show');

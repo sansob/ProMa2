@@ -4,6 +4,7 @@ using DataAccess.ViewModels;
 
 namespace Common.Repository {
     public interface IProjectRepository {
+        List<Project> GetProject(string modulQuery);
         List<Project> Get();
         List<Project> GetSearch(string searchQuery);
         Project Get(int id);

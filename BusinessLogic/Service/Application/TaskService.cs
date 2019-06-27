@@ -72,5 +72,10 @@ namespace BusinessLogic.Service.Application
                 return iTaskRepository.Delete(id);
             }
         }
+
+        public List<Task> GetProjectName(string moduleQuery)
+        {
+            return iTaskRepository.GetProjectName(moduleQuery);
+        }
     }
 }
