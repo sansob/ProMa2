@@ -94,6 +94,31 @@ namespace Client.Controllers
             return Json(statuses, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetTicketStatus()
+        {
+            IEnumerable<Status> tickets = null;
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri(get.link)
+            };
+            var responseTask = client.GetAsync("Status?modulQuery=ticket");
+            responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<IList<Status>>();
+                readTask.Wait();
+                tickets = readTask.Result;
+            }
+            else
+            {
+                tickets = Enumerable.Empty<Status>();
+                ModelState.AddModelError(string.Empty, "Server error");
+            }
+
+            return Json(tickets, JsonRequestBehavior.AllowGet);
+        }
+
 
 
         public void InsertOrUpdate(Status status)
