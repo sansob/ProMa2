@@ -30,8 +30,8 @@ function LoadIndexProject() {
                     
                     html += '<td>' +
                         '<a class="btn btn-outline-info btn-sm" onclick="return GetById(' + val.Id + ')" ><i class="os-icon os-icon-edit-1"></i><span>Edit</span></a>';
-                    html += '  <a class="btn btn-outline-danger btn-sm" onclick="return GoToProject(' + val.Id + ')" ><i class="os-icon os-icon-window-content"></i><span>View</span></a>';
-                    html += '  <a class="btn btn-outline-danger btn-sm" onclick="return Delete(' + val.Id + ')" ><i class="os-icon os-icon-cancel-square"></i><span>Delete</span></a>';
+                    html += '  <a class="btn btn-outline-success btn-sm" onclick="return GoToProject(' + val.Id + ')" ><i class="os-icon os-icon-window-content"></i><span>Detail</span></a>';
+                    html += '  <a class="btn btn-outline-danger btn-sm" onclick="return Delete(' + val.Id + ')" ><i class="os-icon os-icon-ui-15"></i><span></span></a>';
 
                     html += '</tr>';
                     i++;
@@ -120,7 +120,6 @@ function Save() {
 }
 
 function GetById(Id) {
-    debugger;
     $('#Update').show();
     $('#Save').hide();
     $.ajax({
@@ -132,6 +131,8 @@ function GetById(Id) {
             $('#project_start').val(moment(result.Project_Start).format('MM/DD/YYYY'));
             $('#project_end').val(moment(result.Project_Deadline).format('MM/DD/YYYY'));
             $('#project_description').val(result.Project_Detail);
+            $('#project_status').val(result.Status_Id);
+            console.log(result.Status_Id);
             $('#modelAddNew').modal('show');
         }
     })
@@ -175,29 +176,67 @@ function ClearScreen() {
     $('#project_end').val('');
     $('#project_status').val('');
     $('#project_description').val('');
+    $('#project_status').val('');
     $('#Update').hide();
 }
 
 function Validate() {
     if ($('#project_Name').val() == "" || $('#project_Name').val() == " ") {
         swal("Oops", "Please Insert Project Name", "error")
-    } 
+    }
     else if ($('#project_start').val() == "" || $('#project_start').val() == " ") {
         swal("Oops", "Please add project start", "error")
-    }    
+    }
     else if ($('#project_status').val() == "" || $('#project_status').val() == " ") {
         swal("Oops", "Please select project status", "error")
     }
     else if ($('#project_start').val() < moment().format("MM/DD/YYYY") ) {
         swal("Oops", "Start date is lower then today, today is "+moment().format("MM/DD/YYYY"), "error")
     }
-    else if ($('#project_end').val() <= moment().format("MM/DD/YYYY") ) {
+    else if ($('#project_end').val() <= ($('#project_start').val()) ) {
         swal("Oops", "Minimum project duration is one day. ", "error" )
     }
-    
+
     else if ($('#project_description').val() == "" || $('#project_description').val() == " ") {
         swal("Oops", "Please add project description", "error")
     }
+
+    else if ($('#project_status option:selected').val() == "" || $('#project_status option:selected').val() == " ") {
+        swal("Oops", "Empty project status", "error")
+    }
+
+    else if ($('#id').val() == "" || $('#id').val() == " ") {
+        Save();
+    } else {
+        Edit();
+    }
+}
+
+function ValidateEdit() {
+    if ($('#project_Name').val() == "" || $('#project_Name').val() == " ") {
+        swal("Oops", "Please Insert Project Name", "error")
+    }
+    else if ($('#project_start').val() == "" || $('#project_start').val() == " ") {
+        swal("Oops", "Please add project start", "error")
+    }
+    else if ($('#project_status').val() == "" || $('#project_status').val() == " ") {
+        swal("Oops", "Please select project status", "error")
+    }
+    else if ($('#project_start').val() == "" || $('#project_start').val() ) {
+        swal("Oops", "Start date cannot be null, today is "+moment().format("MM/DD/YYYY"), "error")
+    }
+    else if ($('#project_end').val() <= ($('#project_start').val()) ) {
+        swal("Oops", "Minimum project duration is one day. ", "error" )
+    }
+
+    else if ($('#project_description').val() == 0 || $('#project_description').val() == "") {
+        swal("Oops", "Please add project description", "error")
+    }
+
+    else if ($('#project_status').val() == "" || $('#project_status').val() == " ") {
+        swal("Oops", "Empty Project Status", "error")
+    }
+
     else if ($('#id').val() == "" || $('#id').val() == " ") {
         Save();
     } else {
