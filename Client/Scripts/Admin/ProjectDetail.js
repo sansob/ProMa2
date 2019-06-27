@@ -91,8 +91,6 @@ function LoadIndexFileByProject(id) {
                     html += '<tr>';
                     html += '<td>' + i + '</td>';
                     html += '<td>' + val.File_name + '</td>';
-                    html += '<td>' + val.File_uploaderId + '</td>';
-                    html += '<td>' + val.Project.Project_name + '</td>';
                     html += '<td>' + moment(val.CreateDate).format("MM/DD/YYYY") + '</td>';
                     html += '<td>  <a class="btn btn-outline-success btn-sm" href="'+val.File_url+'" target="_blank" ><i class="os-icon os-icon-ui-51"></i><span>Download</span></a>';
 
@@ -198,7 +196,6 @@ function LoadIndexProjectMember(id) {
                 function (index, val) {
                     html += '<tr>';
                     html += '<td>' + i + '</td>';
-                    html += '<td>' + val.Project.Project_name + '</td>';
                     html += '<td>' + val.User_Name + '</td>';
                     html += '<td>' + val.Rule.Rule_Name + '</td>';
                     html += '</tr>';
@@ -223,10 +220,8 @@ function LoadIndexTaskByProject(id) {
             var i = 1;
             $.each(data,
                 function (index, val) {
-                alert('bisa');
                     html += '<tr>';
                     html += '<td>' + i + '</td>';
-                    html += '<td>' + val.Project.Project_name + '</td>';
                     html += '<td>' + val.Description + '</td>';
                     html += '<td>' + moment(val.Start_Date).format("MM/DD/YYYY") + '</td>';
                     html += '<td>' + moment(val.Due_Date).format("MM/DD/YYYY") + '</td>';
@@ -271,7 +266,7 @@ function EditTask() {
     var url = window.location.pathname;
     var id = url.substring(url.lastIndexOf('/') + 1);
     var task = new Object();
-    task.Id = $('#id').val();
+    task.Id = $('#id_task').val();
     task.Project_Id = id;
     task.Description = $('#task_description').val();
     task.Start_Date = $('#start_date').val();
@@ -293,6 +288,7 @@ function EditTask() {
             $('#createtask').modal('hide');
         }
     });
+    ClearScreenTask();
 }
 function GetByIdTask(Id) {
     $('#UpdateTask').show();
@@ -301,14 +297,15 @@ function GetByIdTask(Id) {
         url: "/Tasks/GetById/",
         data: { Id: Id },
         success: function (result) {
-            $('#id').val(result.Id);
+            $('#id_task').val(result.Id);
             $('#task_description').val(result.Description);
             $('#start_date').val(moment(result.Start_Date).format('MM/DD/YYYY'));
             $('#due_date').val(moment(result.Due_Date).format('MM/DD/YYYY'));
             $('#task_priority').val(result.Priority);
             $('#task_by').val(result.Assigned_By_Member);
             $('#task_to').val(result.Assigned_To_Member);
-            $('#modelAddNew').modal('show');
+            $('#status_task').val(result.Status_Id);
+            $('#createtask').modal('show');
         }
     })
 }
@@ -326,7 +323,7 @@ function SaveTask() {
     task.Assigned_By_Member = 1;
     task.Assigned_To_Member = 1;
     $.ajax({
-        url: '/Tasks/InsertOrUpdate/',
+        url: '/Tasks/InsertOrUpdate',
         data: task,
         success: function (result) {
             swal({
@@ -340,13 +337,11 @@ function SaveTask() {
             LoadIndexTaskByProject(id);
         }
     });
-    ClearScreen();
+    ClearScreenTask();
 }
 function ValidateTask() {
-    if ($('#project_Name').val() == "" || $('#project_Name').val() == " ") {
-        swal("Oops", "Please Insert Project Name", "error")
-    }
-    else if ($('#task_description').val() == "" || $('#task_description').val() == " ") {
+
+    if ($('#task_description').val() == "" || $('#task_description').val() == " ") {
         swal("Oops", "Please add Task Description", "error")
     }
     else if ($('#start_date').val() == "" || $('#start_date').val() == " ") {
@@ -358,7 +353,7 @@ function ValidateTask() {
     else if ($('#due_date').val() <= moment().format("MM/DD/YYYY")) {
         swal("Oops", "Minimum task duration is one day. ", "error")
     }
-    else if ($('#id').val() == "" || $('#id').val() == " ") {
+    else if ($('#id_task').val() == "" || $('#id_task').val() == " ") {
         SaveTask();
     } else {
         EditTask();
@@ -415,4 +410,18 @@ function LoadProjectTask() {
             $('#project_task').html(html);
         }
     });
+}
+
+function ClearScreenTask() {
+    $('#SaveTask').show();
+    $('#id_task').val('');
+    $('#project_Name').val('');
+    $('#task_description').val('');
+    $('#start_date').val('');
+    $('#due_date').val('');
+    $('#task_priority').val('');
+    $('#task_status').val('');
+    $('#task_by').val('');
+    $('#task_to').val('');
+    $('#UpdateTask').hide();
 }
