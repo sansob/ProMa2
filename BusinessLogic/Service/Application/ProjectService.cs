@@ -52,5 +52,10 @@ namespace BusinessLogic.Service.Application {
         public bool Delete(int id) {
             return _iProjectRepository.Delete(id);
         }
+
+        public List<Project> GetProjectsByModule(string modulQuery)
+        {
+            return _iProjectRepository.GetProject(modulQuery);
+        }
     }
 }
