@@ -24,10 +24,10 @@
                                         <th>Description</th>
                                         <th>Start Date</th>
                                         <th>Due Date</th>
-                                        <th>Priority</th>
-                                        <th>Status</th>
+                                        <!--<th>Priority</th>-->
+                                        <th>Status</th><!--
                                         <th>Assigned By</th>
-                                        <th>Assigned To</th>
+                                        <th>Assigned To</th>-->
                                         <th>Action</th>
                                     </tr>
 
@@ -76,7 +76,8 @@
                     <div class="form-group">
                         <input hidden="hidden" id="id" class="form-control" type="text">
                         <label for="">Project Name</label>
-                        <input id="project_Name" class="form-control" placeholder="Project Name" type="text">
+                        <select id="project_task" class="form-control"></select>
+                        <!--<input id="Project_Id" class="form-control" placeholder="project id sementara" type="text">-->
                     </div>
                     <div class="form-group">
                         <label>Task Description</label>
@@ -94,14 +95,16 @@
                             <input id="due_date" class="single-daterange  form-control" placeholder="Insert Due Date" type="text">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label for=""> Priority</label>
                         <select id="task_priority" class="form-control"></select>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label for=""> Status</label>
-                        <select id="task_status" class="form-control"></select>
+                        <select id="status_task" class="form-control"></select>
+                        <!--<input id="status_task" class="form-control" placeholder="status id sementara" type="text">-->
                     </div>
+                    <!--
                     <div class="form-group">
                         <label for=""> Assign By</label>
                         <select id="task_by" class="form-control"></select>
@@ -109,7 +112,7 @@
                     <div class="form-group">
                         <label for=""> Assign To</label>
                         <select id="task_to" class="form-control"></select>
-                    </div>
+                    </div>-->
                 </form>
             </div>
             <div class="modal-footer">

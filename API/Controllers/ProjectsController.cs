@@ -34,6 +34,22 @@ namespace API.Controllers {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "500 : Internal Server Error");
             }
         }
+        
+        public HttpResponseMessage GetProjectsByModule(string modulQuery)
+        {
+            try
+            {
+                var message = Request.CreateErrorResponse(HttpStatusCode.NotFound, "404 : Data Not Found");
+                var result = _iProjectService.GetProjectsByModule(modulQuery);
+                if (result != null) message = Request.CreateResponse(HttpStatusCode.OK, result);
+
+                return message;
+            }
+            catch (Exception)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "500 : Internal Server Error");
+            }
+        }
 
         // GET: api/Projects/5
         public HttpResponseMessage GetProject(int id) {

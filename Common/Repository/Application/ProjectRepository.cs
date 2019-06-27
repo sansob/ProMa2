@@ -71,5 +71,12 @@ namespace Common.Repository.Application {
             _applicationContext.SaveChanges();
             return true;
         }
+
+        public List<Project> GetProject(string modulQuery)
+        {
+            var result = _applicationContext.Projects.Where(X => X.IsDelete == false && X.Project_module.Contains(modulQuery))
+                .ToList();
+            return result;
+        }
     }
 }
